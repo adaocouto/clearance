@@ -94,6 +94,7 @@
     }
 
     .panel {
+      min-width: 0;
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 14px;
@@ -115,9 +116,10 @@
 
     @media (max-width: 620px) {
       .field-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 6px;
       }
+      .field-grid > label { grid-column: 1 / -1; }
     }
 
     label {
@@ -131,6 +133,7 @@
 
     input, select {
       width: 100%;
+      min-width: 0;
       padding: 10px 12px;
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -149,6 +152,26 @@
       font-size: 0.86rem;
       white-space: nowrap;
     }
+
+    input[aria-invalid="true"] {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+    }
+
+    .field-error { grid-column: 1 / -1; }
+
+    #resultadoPanel {
+      background: linear-gradient(180deg, #fffdfa 0%, #fff8dd 100%);
+    }
+
+    .result-value.auto-updated {
+      width: fit-content;
+      border-radius: 6px;
+      background: #dbeafe;
+      box-shadow: 0 0 0 3px rgba(31, 111, 178, 0.18);
+    }
+
+    .additional-info > summary { cursor: pointer; }
 
     .toolbar {
       display: flex;
@@ -403,14 +426,14 @@
 
             <div class="field-grid">
               <label for="estatura">Estatura</label>
-              <input id="estatura" name="estatura" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="Ex.: 128">
-              <span class="meta">cm</span>
+              <input id="estatura" name="estatura" type="text" inputmode="numeric" enterkeyhint="next" maxlength="3" autocomplete="off" placeholder="Ex.: 128" aria-describedby="estaturaUnit" aria-invalid="false">
+              <span class="meta" id="estaturaUnit">cm</span>
             </div>
 
             <div class="field-grid">
               <label for="creatinina">Creatinina sérica</label>
-              <input id="creatinina" name="creatinina" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="Ex.: 0,62" aria-describedby="creatininaHint">
-              <span class="meta">mg/dL</span>
+              <input id="creatinina" name="creatinina" type="text" inputmode="numeric" enterkeyhint="done" maxlength="4" autocomplete="off" placeholder="Ex.: 0,62" aria-describedby="creatininaUnit" aria-invalid="false">
+              <span class="meta" id="creatininaUnit">mg/dL</span>
             </div>
             
 
@@ -422,22 +445,21 @@
 
           <section class="panel" id="resultadoPanel">
             <h2>Resultado</h2>
-            <div id="resultadoBox">
+            <div id="resultadoBox" role="status" aria-live="polite" aria-atomic="true">
               <div class="pill">Pronto para calcular</div>
               <div class="result-value">--</div>
               <div>mL/min/1,73 m²</div>
               <div class="details muted">Informe estatura e creatinina e clique em <strong>Calcular</strong>.</div>
             </div>
-            <div id="contextWarning" class="note warn" style="display:none;"></div>
-            <div id="errorBox" class="note danger" style="display:none;"></div>
-            <div id="testStatus" class="status-row"></div>
+            <div id="contextWarning" class="note warn" role="status" aria-live="polite" style="display:none;"></div>
+            <div id="errorBox" class="note danger field-error" role="alert" aria-atomic="true" style="display:none;"></div>
           </section>
         </div>
       </div>
     </form>
 
-    <section class="card" style="margin-top:18px;">
-      <div class="section-head">Informação adicional</div>
+    <details class="card additional-info" style="margin-top:18px;">
+      <summary class="section-head">Informação adicional</summary>
       <div class="card-body">
         <div class="panel">
           <p>Calculadora baseada na fórmula <strong>Bedside Schwartz (2009)</strong>, usando estatura em cm e creatinina sérica em mg/dL.</p>
@@ -445,7 +467,7 @@
           <div class="note warn">A fórmula Bedside Schwartz (2009) deve ser correlacionada com idade, massa muscular, tendência da creatinina e contexto clínico.</div>
         </div>
       </div>
-    </section>
+    </details>
 
     <details class="legal-disclaimer legal-disclaimer-collapsible">
       <summary>Aviso Legal e Isenção de Responsabilidade</summary>
@@ -475,9 +497,21 @@
         resultadoPanel: document.getElementById('resultadoPanel'),
         contextWarning: document.getElementById('contextWarning'),
         errorBox: document.getElementById('errorBox'),
-        testStatus: document.getElementById('testStatus'),
+        btnLimpar: document.querySelector('button[type="reset"]'),
         btnCalcular: document.getElementById('btnCalcular')
       };
+
+      const editableFields = [elements.estatura, elements.creatinina];
+      const replaceOnFirstEdit = new WeakMap();
+      const inputValues = new WeakMap();
+      let hasResult = false;
+      let lastResultValue = null;
+      let lastResultKey = '';
+      let feedbackTimer = null;
+      let resultScrollTimer = null;
+      let editRevision = 0;
+      let pointerAction = null;
+      let deferredBlur = false;
 
       function parseLocaleNumber(value) {
         const raw = String(value ?? '').trim().replace(/\s+/g, '');
@@ -526,16 +560,24 @@
         elements.contextWarning.textContent = '';
         elements.errorBox.style.display = 'none';
         elements.errorBox.textContent = '';
+        editableFields.forEach((field) => {
+          field.setAttribute('aria-invalid', 'false');
+          field.setAttribute('aria-describedby', `${field.id}Unit`);
+        });
       }
 
       function buildReadyResult() {
         return `<div class="pill">Pronto para calcular</div><div class="result-value">--</div><div>mL/min/1,73 m²</div><div class="details muted">Informe estatura e creatinina e clique em <strong>Calcular</strong>.</div>`;
       }
 
-      function showError(message) {
-        elements.resultadoBox.innerHTML = buildReadyResult();
+      function showError(message, field, restoreFocus) {
+        invalidateResult();
+        field.closest('.field-grid').appendChild(elements.errorBox);
+        field.setAttribute('aria-invalid', 'true');
+        field.setAttribute('aria-describedby', `${field.id}Unit errorBox`);
         elements.errorBox.textContent = message;
         elements.errorBox.style.display = 'block';
+        if (restoreFocus) focusField(field, true);
       }
 
       function renderWarnings(context) {
@@ -552,22 +594,154 @@
         if (!Number.isFinite(creatinine) || creatinine <= 0) throw new Error('Informe uma creatinina sérica válida maior que zero.');
 
         const egfr = calculateEgfr(context.height, creatinine);
-        elements.resultadoBox.innerHTML = `
+        const resultValue = formatNumber(egfr, 1);
+        const resultKey = `${context.originalHeight}|${creatinine}`;
+        if (!hasResult || resultKey !== lastResultKey) {
+          clearFeedback();
+          elements.resultadoBox.innerHTML = `
           <div class="pill">Bedside Schwartz (2009)</div>
-          <div class="result-value">${formatNumber(egfr, 1)}</div>
+          <div class="result-value">${resultValue}</div>
           <div>mL/min/1,73 m²</div>
           <div class="details">
             <strong>Estatura:</strong> ${formatNumber(context.height, 1)} cm<br>
             <strong>Creatinina:</strong> ${formatNumber(creatinine, 2)} mg/dL<br>
             <strong>Cálculo:</strong> 0,413 × ${formatNumber(context.height, 1)} ÷ ${formatNumber(creatinine, 2)}
           </div>`;
+          if (lastResultValue !== null && resultValue !== lastResultValue) {
+            const output = elements.resultadoBox.querySelector('.result-value');
+            output.classList.add('auto-updated');
+            feedbackTimer = window.setTimeout(() => {
+              output.classList.remove('auto-updated');
+              feedbackTimer = null;
+            }, 1000);
+          }
+          hasResult = true;
+          lastResultKey = resultKey;
+          lastResultValue = resultValue;
+        }
         renderWarnings(context);
         return { egfr, context, creatinine };
       }
 
       function resetFormView() {
+        cancelResultScroll();
         clearMessages();
-        elements.resultadoBox.innerHTML = buildReadyResult();
+        invalidateResult();
+        lastResultValue = null;
+        lastResultKey = '';
+        editableFields.forEach((field) => {
+          replaceOnFirstEdit.set(field, false);
+          inputValues.set(field, field.value);
+        });
+      }
+
+      function clearFeedback() {
+        if (feedbackTimer !== null) window.clearTimeout(feedbackTimer);
+        feedbackTimer = null;
+        elements.resultadoBox.querySelector('.auto-updated')?.classList.remove('auto-updated');
+      }
+
+      function invalidateResult() {
+        clearFeedback();
+        if (hasResult) elements.resultadoBox.innerHTML = buildReadyResult();
+        hasResult = false;
+      }
+
+      function cancelResultScroll() {
+        if (resultScrollTimer !== null) window.clearTimeout(resultScrollTimer);
+        resultScrollTimer = null;
+      }
+
+      function scrollOptions() {
+        const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+        return { behavior: reducedMotion ? 'auto' : 'smooth', block: 'center', inline: 'nearest' };
+      }
+
+      function prepareFocusedField(field) {
+        cancelResultScroll();
+        replaceOnFirstEdit.set(field, field.value !== '');
+        inputValues.set(field, field.value);
+        field.select();
+      }
+
+      function focusField(field, center = false) {
+        field.focus({ preventScroll: true });
+        prepareFocusedField(field);
+        if (center) field.closest('.field-grid').scrollIntoView(scrollOptions());
+      }
+
+      function selectForFirstEdit(field) {
+        if (replaceOnFirstEdit.get(field)) field.select();
+      }
+
+      function handleInput(field) {
+        const value = field === elements.creatinina
+          ? applyCreatinineMask()
+          : (field.value = sanitizeDigits(field.value, 3));
+        replaceOnFirstEdit.set(field, false);
+        if (inputValues.get(field) === value) return;
+        inputValues.set(field, value);
+        editRevision += 1;
+        cancelResultScroll();
+        clearMessages();
+        invalidateResult();
+      }
+
+      function scheduleResultScroll() {
+        cancelResultScroll();
+        const revision = editRevision;
+        resultScrollTimer = window.setTimeout(() => {
+          resultScrollTimer = null;
+          if (revision !== editRevision || !hasResult || editableFields.includes(document.activeElement)
+            || document.activeElement === elements.btnLimpar) return;
+          const bounds = elements.resultadoPanel.getBoundingClientRect();
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          if (bounds.top < 0 || bounds.bottom > viewportHeight) {
+            elements.resultadoPanel.scrollIntoView(scrollOptions());
+          }
+        }, 80);
+      }
+
+      function tryCalculation(required = false, restoreFocus = false) {
+        if (!required && editableFields.some((field) => !field.value.trim())) return false;
+        try {
+          calculateFromForm();
+          return true;
+        } catch (error) {
+          const height = parseLocaleNumber(elements.estatura.value);
+          const field = !Number.isFinite(height) || height <= 0 ? elements.estatura : elements.creatinina;
+          showError(error.message, field, restoreFocus);
+          return false;
+        }
+      }
+
+      function handleFieldKeyDown(event) {
+        const field = event.currentTarget;
+        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+          selectForFirstEdit(field);
+        }
+        if (event.key !== 'Enter' || event.isComposing) return;
+        event.preventDefault();
+        if (field === elements.estatura) {
+          const height = parseLocaleNumber(field.value);
+          if (!Number.isFinite(height) || height <= 0) {
+            tryCalculation(true, true);
+            return;
+          }
+          focusField(elements.creatinina, true);
+        } else if (tryCalculation(true, true)) {
+          field.blur();
+          scheduleResultScroll();
+        }
+      }
+
+      function completePointerAction(event) {
+        const handledByButton = event.type === 'click'
+          && [elements.btnCalcular, elements.btnLimpar].includes(event.target.closest('button'));
+        const shouldCalculate = deferredBlur && !handledByButton;
+        pointerAction = null;
+        deferredBlur = false;
+        if (shouldCalculate) tryCalculation();
       }
 
       function assert(condition, label) {
@@ -589,31 +763,55 @@
         return { passed: tests.length, total: tests.length };
       }
 
-      function renderSelfTestStatus() {
+      function verifyCore() {
         try {
-          const result = runSelfTests();
-          elements.testStatus.innerHTML = `<div class="status-chip ok">Autotestes: ${result.passed}/${result.total} aprovados</div><div class="status-chip ok">Máscara da creatinina ativa</div>`;
+          runSelfTests();
         } catch (error) {
-          elements.testStatus.innerHTML = `<div class="status-chip warn">Autotestes falharam</div>`;
           console.error(error);
         }
       }
 
       function bindEvents() {
-        elements.estatura.addEventListener('input', () => { elements.estatura.value = sanitizeDigits(elements.estatura.value, 3); });
-        elements.creatinina.addEventListener('input', applyCreatinineMask);
-        elements.creatinina.addEventListener('blur', () => {
-          if (elements.creatinina.value.trim()) {
-            try { calculateFromForm(); } catch (error) { showError(error.message); }
-          }
+        editableFields.forEach((field) => {
+          field.addEventListener('focus', () => prepareFocusedField(field));
+          field.addEventListener('beforeinput', (event) => {
+            if (event.inputType?.startsWith('insert')) selectForFirstEdit(field);
+          });
+          field.addEventListener('paste', () => selectForFirstEdit(field));
+          field.addEventListener('compositionstart', () => selectForFirstEdit(field));
+          field.addEventListener('input', () => handleInput(field));
+          field.addEventListener('keydown', handleFieldKeyDown);
+          field.addEventListener('blur', (event) => {
+            if (pointerAction) {
+              deferredBlur = true;
+              return;
+            }
+            if (tryCalculation() && (!event.relatedTarget || event.relatedTarget === elements.btnCalcular)) {
+              scheduleResultScroll();
+            }
+          });
         });
+        document.addEventListener('pointerdown', (event) => {
+          pointerAction = event.target.closest('button, summary');
+        }, true);
+        document.addEventListener('click', completePointerAction);
+        document.addEventListener('pointercancel', completePointerAction);
+        document.addEventListener('keydown', completePointerAction, true);
         elements.btnCalcular.addEventListener('click', () => {
-          try {
-            calculateFromForm();
-            setTimeout(() => elements.resultadoPanel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
-          } catch (error) { showError(error.message); }
+          if (tryCalculation(true, true)) scheduleResultScroll();
         });
-        elements.form.addEventListener('reset', () => setTimeout(resetFormView, 0));
+        elements.form.addEventListener('submit', (event) => event.preventDefault());
+        elements.form.addEventListener('reset', () => {
+          editRevision += 1;
+          const revision = editRevision;
+          resetFormView();
+          window.setTimeout(() => {
+            if (revision !== editRevision) return;
+            editableFields.forEach((field) => inputValues.set(field, field.value));
+            focusField(elements.estatura);
+            elements.estatura.closest('.field-grid').scrollIntoView(scrollOptions());
+          }, 0);
+        });
       }
 
       window.ClearanceCore = Object.freeze({
@@ -626,7 +824,8 @@
 
       bindEvents();
       resetFormView();
-      renderSelfTestStatus();
+      verifyCore();
+      focusField(elements.estatura);
     })();
   </script>
 </body>
