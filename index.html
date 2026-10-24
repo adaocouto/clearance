@@ -1,358 +1,371 @@
-<!-- NomeDoApp = "Taxa de Filtração Glomerular (clearance)" -->
-<!-- AndroidVersionName = "1.012.10.16"; VersionName = "1.012.10.16" -->
-<!-- AndroidVersionCode = "262891751"; VersionCode = "262891751"; BuildTimestamp = "2026-10-16T17:51:41-03:00" -->
-<!doctype html>
+<!-- NomeDoApp = "Conversor Laboratorial" -->
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Taxa de Filtração Glomerular (clearance)</title>
-  <meta name="description" content="Estimativa pediátrica da taxa de filtração glomerular pela fórmula de Bedside Schwartz (2009), com creatinina em mg/dL.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#17324d">
+  <title>Conversor Laboratorial — mg/dL ↔ mmol/L</title>
   <style>
     :root {
+      --bg: #eef4fb;
       --surface: #ffffff;
       --surface-soft: #f8fbff;
       --primary: #1e4f8a;
       --primary-strong: #173b66;
       --border: #cddbea;
+      --text: #16324c;
+      --muted: #61778f;
+      --success: #0f6a47;
+      --success-bg: #e7f8ef;
+      --warning: #8a5a12;
+      --warning-bg: #fff6df;
+      --danger: #9f1d1d;
+      --danger-bg: #fdeeee;
+      --shadow: 0 16px 34px rgba(18, 44, 73, 0.10);
       --radius-xl: 22px;
-
-      --bg: #f5f8fc;
-      --card: #ffffff;
-      --text: #18344d;
-      --muted: #5c7388;
-      --line: #d6e2ef;
-      --blue: #1f6fb2;
-      --blue-soft: #eaf4ff;
-      --ok: #166534;
-      --ok-soft: #ecfdf3;
-      --warn: #8a5a00;
-      --warn-soft: #fff8e8;
-      --danger: #b42318;
-      --danger-soft: #fff2f2;
-      --shadow: 0 6px 24px rgba(19, 53, 85, 0.08);
+      --radius-lg: 18px;
+      --radius-md: 14px;
     }
 
     * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
 
     body {
       margin: 0;
-      padding: 20px;
-      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(30, 79, 138, 0.10), transparent 28%),
+        linear-gradient(180deg, #edf4fb 0%, #f7fbff 100%);
       color: var(--text);
-      background: var(--bg);
-      line-height: 1.45;
+      padding: 18px 12px 28px;
     }
 
-    .container {
-      max-width: 980px;
+    .app {
+      width: min(920px, 100%);
       margin: 0 auto;
+      display: grid;
+      gap: 16px;
     }
 
-    h1 {
-      margin: 0 0 6px;
-      font-size: 1.75rem;
-      color: var(--blue);
-    }
-
-    .subtitle {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
+    .hero,
     .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
-      overflow: hidden;
     }
 
-    .section-head {
-      color: #fff;
-      background: var(--blue);
-      padding: 11px 14px;
-      font-weight: 700;
-      font-size: 0.96rem;
+    .hero {
+      padding: 20px;
+      background: linear-gradient(135deg, #f8fbff 0%, #edf5ff 100%);
     }
 
-    .card-body {
-      padding: 16px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    @media (max-width: 840px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .panel {
-      min-width: 0;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px;
-      background: #fbfdff;
-    }
-
-    .panel h2 {
-      margin: 0 0 12px;
-      font-size: 1rem;
-    }
-
-    .field-grid {
-      display: grid;
-      grid-template-columns: 180px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    @media (max-width: 620px) {
-      .field-grid {
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 6px;
-      }
-      .field-grid > label { grid-column: 1 / -1; }
-    }
-
-    label {
-      font-size: 0.94rem;
-      font-weight: 700;
-    }
-
-    input, select, button {
-      font: inherit;
-    }
-
-    input, select {
-      width: 100%;
-      min-width: 0;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      color: var(--text);
-      background: #fff;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(31, 111, 178, 0.12);
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 0.86rem;
-      white-space: nowrap;
-    }
-
-    input[aria-invalid="true"] {
-      border-color: var(--danger);
-      box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
-    }
-
-    .field-error { grid-column: 1 / -1; }
-
-    #resultadoPanel {
-      background: linear-gradient(180deg, #fffdfa 0%, #fff8dd 100%);
-    }
-
-    .result-value.auto-updated {
-      width: fit-content;
-      border-radius: 6px;
-      background: #dbeafe;
-      box-shadow: 0 0 0 3px rgba(31, 111, 178, 0.18);
-    }
-
-    .additional-info > summary { cursor: pointer; }
-
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    button {
-      border: 1px solid transparent;
-      border-radius: 10px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .primary {
-      background: var(--blue);
-      color: #fff;
-    }
-
-    .secondary {
-      background: #edf2f8;
-      border-color: var(--line);
-      color: var(--text);
-    }
-
-    .notice,
-    .note {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-    }
-
-    .notice {
-      background: var(--blue-soft);
-      color: var(--text);
-    }
-
-    .note.warn {
-      background: var(--warn-soft);
-      color: var(--warn);
-      border: 1px solid #f3d489;
-    }
-
-    .note.danger {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border: 1px solid #f1c2c2;
-    }
-
-    .note.ok {
-      background: var(--ok-soft);
-      color: var(--ok);
-      border: 1px solid #b7ebc2;
-    }
-
-    .pill {
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 7px 12px;
+      min-height: 34px;
+      padding: 8px 16px;
       border-radius: 999px;
-      border: 1px solid var(--line);
-      font-size: 0.82rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      background: var(--ok-soft);
-      border-color: #b7ebc2;
-      color: var(--ok);
-    }
-
-    .result-value {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--blue);
+      background: #fff0b8;
+      color: #463600;
+      font-size: clamp(1.35rem, 3.5vw, 2.05rem);
       line-height: 1.05;
-      margin-bottom: 6px;
-    }
-
-    .details {
-      margin-top: 10px;
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .formula {
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: #f4f8fd;
-      border: 1px dashed #c8d8eb;
-      font-weight: 700;
-      color: #24425e;
-    }
-
-    .status-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .status-chip {
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      font-size: 0.82rem;
-      font-weight: 700;
-      background: #fff;
-    }
-
-    .status-chip.ok {
-      background: var(--ok-soft);
-      border-color: #b7ebc2;
-      color: var(--ok);
-    }
-
-    .status-chip.warn {
-      background: var(--warn-soft);
-      border-color: #f3d489;
-      color: var(--warn);
-    }
-  
-    /* PADRAO_CONVLAB_INICIO */
-
-    .hero {
-      background: var(--surface, #ffffff);
-      border: 1px solid var(--border, #cddbea);
-      border-radius: var(--radius-xl, 22px);
-      box-shadow: var(--shadow, 0 16px 34px rgba(18, 44, 73, 0.10));
-      padding: 20px;
-      background: linear-gradient(135deg, #f8fbff 0%, #edf5ff 100%);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 14px;
     }
 
     .hero h1 {
       margin: 0;
       font-size: clamp(1.35rem, 3.5vw, 2.05rem);
       line-height: 1.05;
-      color: var(--primary-strong, #173b66);
+      color: var(--primary-strong);
       text-align: center;
     }
 
     .hero p {
       margin: 10px 0 0;
-      color: var(--muted, #61778f);
+      color: var(--muted);
       line-height: 1.55;
       max-width: 64ch;
     }
 
-    .espaco-antes-caixa-titulo {
-      height: 1em;
-    }
-    /* PADRAO_CONVLAB_FIM */
-  
-
-    .age-fields {
+    .layout {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 16px;
     }
 
-    .age-subfield {
+    .card { padding: 18px; min-width: 0; }
+
+    [hidden] { display: none !important; }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--primary-strong);
+      letter-spacing: 0.02em;
+    }
+
+    .grid {
       display: grid;
-      gap: 5px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    .age-subfield label {
-      font-size: 0.78rem;
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--primary-strong);
+    }
+
+    .hint {
+      font-size: 0.74rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select,
+    .unit-display {
+      width: 100%;
+      min-width: 0;
+      min-height: 50px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      color: var(--text);
+      font-size: 16px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .unit-display { display: flex; align-items: center; }
+    .value-with-unit { display: flex; align-items: center; gap: 8px; }
+    .value-with-unit input { flex: 1; }
+    .value-unit { font-size: 0.86rem; color: var(--muted); white-space: nowrap; }
+    input[aria-invalid="true"],
+    input[aria-invalid="true"]:focus {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(159, 29, 29, 0.14);
+    }
+    .auto-updated {
+      background: #dbeafe !important;
+      border-radius: 6px;
+      box-shadow: 0 0 0 2px rgba(90, 147, 214, 0.28);
+    }
+
+    input:focus,
+    select:focus {
+      background: #ffffff;
+      border-color: #5a93d6;
+      box-shadow: 0 0 0 4px rgba(90, 147, 214, 0.16);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button {
+      min-height: 48px;
+      border: 0;
+      border-radius: var(--radius-md);
+      padding: 0 18px;
+      font-size: 0.94rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.18s ease;
+    }
+
+    button:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover { background: var(--primary-strong); }
+
+    .btn-secondary {
+      background: #eef3f8;
+      color: #35506b;
+      border: 1px solid #d6e1eb;
+    }
+
+    .btn-secondary:hover { background: #e4edf6; }
+
+    .alert {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      line-height: 1.45;
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid #f5c9c9;
+    }
+
+    .result-panel {
+      display: grid;
+      gap: 14px;
+    }
+
+    .result-box,
+    .note-box {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+    }
+
+    .result-box.primary {
+      background: linear-gradient(180deg, #fffdfa 0%, #fff8dd 100%);
+      border-color: #bfd5ef;
+    }
+
+    .result-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .result-value {
+      font-size: clamp(1.45rem, 3.5vw, 2.2rem);
+      font-weight: 900;
+      color: var(--primary-strong);
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .result-subtitle {
+      margin-top: 8px;
+      font-size: 0.92rem;
+      line-height: 1.45;
       color: var(--muted);
     }
 
-    @media (max-width: 620px) {
-      .age-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .meta-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
     }
 
+    .meta-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      border-top: 1px dashed #dbe5ef;
+      padding-top: 10px;
+    }
+
+    .meta-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .meta-key {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .meta-value {
+      text-align: right;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      width: fit-content;
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid #f4da9b;
+    }
+
+    .status.success {
+      background: var(--success-bg);
+      color: var(--success);
+      border-color: #b8ebcc;
+    }
+
+    code.inline {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9em;
+      background: #f2f7fd;
+      border: 1px solid #dce8f5;
+      border-radius: 8px;
+      padding: 2px 6px;
+      color: var(--primary-strong);
+    }
+
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 14px 10px 24px; }
+      .app { gap: 14px; }
+      .hero, .card {
+        border-radius: 18px;
+        padding: 16px;
+      }
+
+      .badge {
+        width: fit-content;
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .actions button { width: 100%; }
+      .meta-item { flex-direction: column; }
+      .meta-value { text-align: left; }
+    }
+  
+    .espaco-antes-caixa-titulo {
+      height: 1em;
+    }
+  
     .legal-disclaimer{
       margin-top:16px;
       padding:0;
@@ -408,66 +421,94 @@
       height: 4.2em;
     }
   </style>
+  <!-- AndroidVersionName="1.012.10.20" VersionName="1.012.10.20" AndroidVersionCode="262931412" VersionCode="262931412" BuildTimestamp="2026-10-20T14:12:27.435854-03:00" -->
 </head>
 <body>
-  <main class="container">
+  <main class="app" id="screenLabConverter">
     <div class="espaco-antes-caixa-titulo" aria-hidden="true"></div>
-
     <section class="hero" id="sectionHero">
-      <h1>Taxa de Filtração Glomerular (clearance)</h1>
-      <p>Fórmula de Bedside Schwartz (2009)</p>
+      <div class="badge">🧪 Conversor Laboratorial</div>
+      <h1 id="conversionTitle">mg/dL ↔ mmol/L</h1>
+      
     </section>
 
-    <form id="clearanceForm" class="card" novalidate>
-      <div class="section-head">Dados do paciente</div>
-      <div class="card-body">
+    <section class="layout">
+      <section class="card" id="sectionInput">
+        <h2 class="section-title">Entrada</h2>
+
         <div class="grid">
-          <section class="panel">
+          <div class="field full">
+            <label for="analyte">Molécula</label>
+            <select id="analyte" name="analyte"></select>
+          </div>
 
-            <div class="field-grid">
-              <label for="estatura">Estatura</label>
-              <input id="estatura" name="estatura" type="text" inputmode="numeric" enterkeyhint="next" maxlength="3" autocomplete="off" placeholder="Ex.: 128" aria-describedby="estaturaUnit" aria-invalid="false">
-              <span class="meta" id="estaturaUnit">cm</span>
-            </div>
+          <div class="field">
+            <label for="sourceUnit">Unidade de origem</label>
+            <select id="sourceUnit" name="sourceUnit"></select>
+          </div>
 
-            <div class="field-grid">
-              <label for="creatinina">Creatinina sérica</label>
-              <input id="creatinina" name="creatinina" type="text" inputmode="numeric" enterkeyhint="done" maxlength="4" autocomplete="off" placeholder="Ex.: 0,62" aria-describedby="creatininaUnit" aria-invalid="false">
-              <span class="meta" id="creatininaUnit">mg/dL</span>
-            </div>
-            
+          <div class="field">
+            <label for="targetUnit">Unidade de destino</label>
+            <output id="targetUnit" name="targetUnit" class="unit-display" aria-live="polite"></output>
+          </div>
 
-            <div class="toolbar">
-              <button id="btnCalcular" class="primary" type="button">Calcular</button>
-              <button class="secondary" type="reset">Limpar</button>
+          <div class="field full">
+            <label for="inputValue">Valor</label>
+            <div class="value-with-unit">
+              <input id="inputValue" name="inputValue" type="text" inputmode="decimal" enterkeyhint="done" placeholder="Ex.: 100 ou 4,8" autocomplete="off" aria-describedby="inputValueUnit inputValueHint" aria-invalid="false">
+              <span class="value-unit" id="inputValueUnit">mg/dL</span>
             </div>
-          </section>
-
-          <section class="panel" id="resultadoPanel">
-            <h2>Resultado</h2>
-            <div id="resultadoBox" role="status" aria-live="polite" aria-atomic="true">
-              <div class="pill">Pronto para calcular</div>
-              <div class="result-value">--</div>
-              <div>mL/min/1,73 m²</div>
-              <div class="details muted">Informe estatura e creatinina e clique em <strong>Calcular</strong>.</div>
-            </div>
-            <div id="contextWarning" class="note warn" role="status" aria-live="polite" style="display:none;"></div>
-            <div id="errorBox" class="note danger field-error" role="alert" aria-atomic="true" style="display:none;"></div>
-          </section>
+            <div class="hint" id="inputValueHint">Aceita vírgula ou ponto decimal.</div>
+            <div class="alert" id="errorBox" role="alert" aria-atomic="true"></div>
+          </div>
         </div>
-      </div>
-    </form>
 
-    <details class="card additional-info" style="margin-top:18px;">
-      <summary class="section-head">Informação adicional</summary>
-      <div class="card-body">
-        <div class="panel">
-          <p>Calculadora baseada na fórmula <strong>Bedside Schwartz (2009)</strong>, usando estatura em cm e creatinina sérica em mg/dL.</p>
-          <div class="formula">eGFR = 0,413 × estatura (cm) ÷ creatinina sérica (mg/dL)</div>
-          <div class="note warn">A fórmula Bedside Schwartz (2009) deve ser correlacionada com idade, massa muscular, tendência da creatinina e contexto clínico.</div>
+        <div class="actions">
+          <button class="btn-primary" id="calculateButton" type="button">Calcular</button>
+          <button class="btn-secondary" id="clearButton" type="button">Limpar</button>
         </div>
-      </div>
-    </details>
+
+      </section>
+
+      <section class="card" id="resultCard">
+        <h2 class="section-title">Resultado</h2>
+
+        <div class="result-panel">
+          <div class="result-box primary" id="conversionSummary" role="status" aria-live="polite" aria-atomic="true">
+            <div class="result-label">Conversão</div>
+            <div class="result-value" id="resultValue">—</div>
+            <div class="result-subtitle" id="resultText">Informe um valor e selecione as unidades.</div>
+          </div>
+
+          <div class="result-box" id="detailsBox" hidden>
+            <div class="result-label">Detalhes</div>
+            <div class="meta-list">
+              <div class="meta-item">
+                <span class="meta-key">Molécula</span>
+                <span class="meta-value" id="detailAnalyte">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">Origem</span>
+                <span class="meta-value" id="detailSource">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">Destino</span>
+                <span class="meta-value" id="detailTarget">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">Coeficiente usado</span>
+                <span class="meta-value" id="detailFactor">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="note-box" id="conversionStatus" hidden>
+            <div class="status" id="statusBadge"></div>
+            <div class="result-subtitle" id="statusText"></div>
+          </div>
+        </div>
+      </section>
+    </section>
 
     <details class="legal-disclaimer legal-disclaimer-collapsible">
       <summary>Aviso Legal e Isenção de Responsabilidade</summary>
@@ -476,7 +517,7 @@
       </div>
     </details>
 
-    <div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.012.10.16</span></div>
+    <div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.012.10.20</span></div>
 
     <div class="spacer-3lines" aria-hidden="true"></div>
 
@@ -486,347 +527,557 @@
     (() => {
       'use strict';
 
-      const FORMULA_CONSTANT = 0.413;
-      const HEIGHT_MAX_CM = 200;
+      // constants
+      const UNIT_LABELS = Object.freeze({
+        mgdl: 'mg/dL',
+        mmoll: 'mmol/L',
+        umoll: 'µmol/L'
+      });
 
-      const elements = {
-        form: document.getElementById('clearanceForm'),
-        estatura: document.getElementById('estatura'),
-        creatinina: document.getElementById('creatinina'),
-        resultadoBox: document.getElementById('resultadoBox'),
-        resultadoPanel: document.getElementById('resultadoPanel'),
-        contextWarning: document.getElementById('contextWarning'),
+      function defineAnalyte(id, label, siUnit, factor) {
+        return Object.freeze({ id, label, pairs: Object.freeze({
+          [`mgdl:${siUnit}`]: factor,
+          [`${siUnit}:mgdl`]: 1 / factor
+        }) });
+      }
+
+      // Fatores clínicos: CDC/NHANES BIOPRO_E, Labcorp e NIH/ARIC.
+      // https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2007/DataFiles/BIOPRO_E.htm
+      // https://www.labcorp.com/test-menu/resources/si-unit-conversion-table
+      // https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/document.cgi?phd=2881&study_id=phs000280.v4.p1
+      // Ureia: NIST, massa molar 60,0553. Na/K/Cl: pesos atômicos CIAAW.
+      // Fosfato: convenção laboratorial em mg/dL de fósforo, não massa de PO4.
+      const ANALYTES = Object.freeze([
+        defineAnalyte('urea', 'Ureia', 'mmoll', 0.1665),
+        defineAnalyte('bun', 'BUN', 'mmoll', 0.357),
+        defineAnalyte('sodium', 'Sódio', 'mmoll', 10 / 22.98976928),
+        defineAnalyte('potassium', 'Potássio', 'mmoll', 10 / 39.0983),
+        defineAnalyte('calcium', 'Cálcio', 'mmoll', 0.2495),
+        defineAnalyte('magnesium', 'Magnésio', 'mmoll', 0.4114),
+        defineAnalyte('phosphate', 'Fosfato', 'mmoll', 0.3229),
+        defineAnalyte('chloride', 'Cloreto', 'mmoll', 10 / 35.45),
+        defineAnalyte('creatinine', 'Creatinina', 'umoll', 88.4),
+        defineAnalyte('bilirubin', 'Bilirrubina', 'umoll', 17.1),
+        defineAnalyte('uric_acid', 'Ácido úrico', 'umoll', 59.48),
+        defineAnalyte('cholesterol', 'Colesterol', 'mmoll', 0.02586),
+        defineAnalyte('triglycerides', 'Triglicerídeos', 'mmoll', 0.01129),
+        defineAnalyte('glucose', 'Glicose', 'mmoll', 0.05551),
+        defineAnalyte('lactate', 'Lactato', 'mmoll', 0.111)
+      ]);
+
+      // dom refs
+      const DOM = {
+        analyte: document.getElementById('analyte'),
+        sourceUnit: document.getElementById('sourceUnit'),
+        targetUnit: document.getElementById('targetUnit'),
+        conversionTitle: document.getElementById('conversionTitle'),
+        inputValueUnit: document.getElementById('inputValueUnit'),
+        inputValue: document.getElementById('inputValue'),
+        calculateButton: document.getElementById('calculateButton'),
+        clearButton: document.getElementById('clearButton'),
         errorBox: document.getElementById('errorBox'),
-        btnLimpar: document.querySelector('button[type="reset"]'),
-        btnCalcular: document.getElementById('btnCalcular')
+        resultCard: document.getElementById('resultCard'),
+        resultSummary: document.getElementById('conversionSummary'),
+        detailsBox: document.getElementById('detailsBox'),
+        conversionStatus: document.getElementById('conversionStatus'),
+        resultValue: document.getElementById('resultValue'),
+        resultText: document.getElementById('resultText'),
+        detailAnalyte: document.getElementById('detailAnalyte'),
+        detailSource: document.getElementById('detailSource'),
+        detailTarget: document.getElementById('detailTarget'),
+        detailFactor: document.getElementById('detailFactor'),
+        statusBadge: document.getElementById('statusBadge'),
+        statusText: document.getElementById('statusText')
       };
 
-      const editableFields = [elements.estatura, elements.creatinina];
-      const replaceOnFirstEdit = new WeakMap();
-      const inputValues = new WeakMap();
-      let hasResult = false;
-      let lastResultValue = null;
-      let lastResultKey = '';
-      let feedbackTimer = null;
-      let resultScrollTimer = null;
-      let editRevision = 0;
-      let pointerAction = null;
-      let deferredBlur = false;
+      // state
+      const UI_STATE = {
+        lastResult: null,
+        revision: 0,
+        replaceOnFirstEdit: false,
+        inputValue: '',
+        scrollTimer: null,
+        pointerControl: null,
+        deferredBlur: false
+      };
+      const completedOutputs = new Map();
+      const feedbackTimers = new Map();
+      const outputIds = ['resultValue', 'resultText', 'detailAnalyte', 'detailSource', 'detailTarget', 'detailFactor'];
+
+      // parsers
+      const getAnalyteById = (id) => ANALYTES.find((item) => item.id === id) || null;
+      const buildPairKey = (sourceUnit, targetUnit) => `${sourceUnit}:${targetUnit}`;
 
       function parseLocaleNumber(value) {
-        const raw = String(value ?? '').trim().replace(/\s+/g, '');
-        if (!raw) return NaN;
-        return Number(raw.replace(',', '.'));
+        if (typeof value !== 'string') return Number(value);
+
+        let normalized = value.trim().replace(/\s+/g, '');
+        if (!normalized) return NaN;
+
+        const hasComma = normalized.includes(',');
+        const hasDot = normalized.includes('.');
+
+        if (hasComma && hasDot) {
+          normalized = normalized.lastIndexOf(',') > normalized.lastIndexOf('.')
+            ? normalized.replace(/\./g, '').replace(',', '.')
+            : normalized.replace(/,/g, '');
+        } else if (hasComma) {
+          normalized = normalized.replace(',', '.');
+        }
+
+        return Number(normalized);
       }
 
-      function formatNumber(value, decimals) {
+      // formatters
+      function formatNumber(value, decimals = 2) {
         if (!Number.isFinite(value)) return '';
-        return value.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return value.toLocaleString('pt-BR', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
       }
 
-      function sanitizeDigits(value, maxLength) {
-        return String(value ?? '').replace(/\D/g, '').slice(0, maxLength);
+      function formatFactor(value) {
+        if (!Number.isFinite(value)) return '—';
+        return value.toLocaleString('pt-BR', { maximumFractionDigits: 6 });
       }
 
-      function formatCreatinineInput(rawValue) {
-        const digits = sanitizeDigits(rawValue, 3);
-        if (digits.length <= 1) return digits;
-        return `${digits.charAt(0)},${digits.slice(1)}`;
+      // validators
+      function getAllowedUnits(analyte) {
+        const units = new Set();
+        Object.keys(analyte.pairs).forEach((pairKey) => {
+          const [sourceUnit, targetUnit] = pairKey.split(':');
+          units.add(sourceUnit);
+          units.add(targetUnit);
+        });
+        return Array.from(units);
       }
 
-      function applyCreatinineMask() {
-        const formatted = formatCreatinineInput(elements.creatinina.value);
-        if (elements.creatinina.value !== formatted) elements.creatinina.value = formatted;
-        return formatted;
+      function getAvailableTargets(analyte, sourceUnit) {
+        return Object.keys(analyte.pairs)
+          .map((pairKey) => pairKey.split(':'))
+          .filter(([pairSource]) => pairSource === sourceUnit)
+          .map(([, pairTarget]) => pairTarget);
       }
 
-      function readValidatedPatientContext() {
-        const originalHeight = parseLocaleNumber(elements.estatura.value);
-        if (!Number.isFinite(originalHeight) || originalHeight <= 0) throw new Error('Informe uma estatura válida maior que zero.');
-        const height = Math.min(originalHeight, HEIGHT_MAX_CM);
+      // calculators
+      function convertValue({ analyteId, sourceUnit, targetUnit, numericValue }) {
+        const analyte = getAnalyteById(analyteId);
+        if (!analyte) throw new Error('Selecione uma molécula válida.');
+        if (!Number.isFinite(numericValue) || numericValue <= 0) throw new Error('Informe um valor numérico maior que zero.');
+
+        const pairKey = buildPairKey(sourceUnit, targetUnit);
+        const factor = analyte.pairs[pairKey];
+        if (!Number.isFinite(factor)) throw new Error('A combinação de unidades não é compatível com a molécula selecionada.');
+
+        const outputValue = numericValue * factor;
+        if (!Number.isFinite(outputValue)) throw new Error('Não foi possível calcular.');
         return {
-          height,
-          originalHeight,
-          heightWasCapped: originalHeight > HEIGHT_MAX_CM
+          analyte,
+          sourceUnit,
+          targetUnit,
+          factor,
+          inputValue: numericValue,
+          outputValue
         };
       }
 
-      function calculateEgfr(heightCm, creatinineMgDl) {
-        return FORMULA_CONSTANT * heightCm / creatinineMgDl;
+      function getCurrentConversionInput() {
+        return {
+          analyteId: DOM.analyte.value,
+          sourceUnit: DOM.sourceUnit.value,
+          targetUnit: DOM.targetUnit.dataset.unit,
+          numericValue: parseLocaleNumber(DOM.inputValue.value)
+        };
       }
 
-      function clearMessages() {
-        elements.contextWarning.style.display = 'none';
-        elements.contextWarning.textContent = '';
-        elements.errorBox.style.display = 'none';
-        elements.errorBox.textContent = '';
-        editableFields.forEach((field) => {
-          field.setAttribute('aria-invalid', 'false');
-          field.setAttribute('aria-describedby', `${field.id}Unit`);
-        });
-      }
-
-      function buildReadyResult() {
-        return `<div class="pill">Pronto para calcular</div><div class="result-value">--</div><div>mL/min/1,73 m²</div><div class="details muted">Informe estatura e creatinina e clique em <strong>Calcular</strong>.</div>`;
-      }
-
-      function showError(message, field, restoreFocus) {
-        invalidateResult();
-        field.closest('.field-grid').appendChild(elements.errorBox);
-        field.setAttribute('aria-invalid', 'true');
-        field.setAttribute('aria-describedby', `${field.id}Unit errorBox`);
-        elements.errorBox.textContent = message;
-        elements.errorBox.style.display = 'block';
-        if (restoreFocus) focusField(field, true);
-      }
-
-      function renderWarnings(context) {
-        if (!context.heightWasCapped) return;
-        elements.contextWarning.innerHTML = `<strong>Atenção:</strong> estatura informada de ${formatNumber(context.originalHeight, 1)} cm limitada internamente a ${formatNumber(context.height, 1)} cm.`;
-        elements.contextWarning.style.display = 'block';
-      }
-
-      function calculateFromForm() {
-        clearMessages();
-        const context = readValidatedPatientContext();
-        const formattedCreatinine = applyCreatinineMask();
-        const creatinine = parseLocaleNumber(formattedCreatinine);
-        if (!Number.isFinite(creatinine) || creatinine <= 0) throw new Error('Informe uma creatinina sérica válida maior que zero.');
-
-        const egfr = calculateEgfr(context.height, creatinine);
-        const resultValue = formatNumber(egfr, 1);
-        const resultKey = `${context.originalHeight}|${creatinine}`;
-        if (!hasResult || resultKey !== lastResultKey) {
-          clearFeedback();
-          elements.resultadoBox.innerHTML = `
-          <div class="pill">Bedside Schwartz (2009)</div>
-          <div class="result-value">${resultValue}</div>
-          <div>mL/min/1,73 m²</div>
-          <div class="details">
-            <strong>Estatura:</strong> ${formatNumber(context.height, 1)} cm<br>
-            <strong>Creatinina:</strong> ${formatNumber(creatinine, 2)} mg/dL<br>
-            <strong>Cálculo:</strong> 0,413 × ${formatNumber(context.height, 1)} ÷ ${formatNumber(creatinine, 2)}
-          </div>`;
-          if (lastResultValue !== null && resultValue !== lastResultValue) {
-            const output = elements.resultadoBox.querySelector('.result-value');
-            output.classList.add('auto-updated');
-            feedbackTimer = window.setTimeout(() => {
-              output.classList.remove('auto-updated');
-              feedbackTimer = null;
-            }, 1000);
-          }
-          hasResult = true;
-          lastResultKey = resultKey;
-          lastResultValue = resultValue;
-        }
-        renderWarnings(context);
-        return { egfr, context, creatinine };
-      }
-
-      function resetFormView() {
-        cancelResultScroll();
-        clearMessages();
-        invalidateResult();
-        lastResultValue = null;
-        lastResultKey = '';
-        editableFields.forEach((field) => {
-          replaceOnFirstEdit.set(field, false);
-          inputValues.set(field, field.value);
-        });
-      }
-
-      function clearFeedback() {
-        if (feedbackTimer !== null) window.clearTimeout(feedbackTimer);
-        feedbackTimer = null;
-        elements.resultadoBox.querySelector('.auto-updated')?.classList.remove('auto-updated');
-      }
-
-      function invalidateResult() {
-        clearFeedback();
-        if (hasResult) elements.resultadoBox.innerHTML = buildReadyResult();
-        hasResult = false;
-      }
-
-      function cancelResultScroll() {
-        if (resultScrollTimer !== null) window.clearTimeout(resultScrollTimer);
-        resultScrollTimer = null;
-      }
-
+      // ui renderers
       function scrollOptions() {
         const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
         return { behavior: reducedMotion ? 'auto' : 'smooth', block: 'center', inline: 'nearest' };
       }
 
-      function prepareFocusedField(field) {
+      function cancelResultScroll() {
+        if (UI_STATE.scrollTimer !== null) window.clearTimeout(UI_STATE.scrollTimer);
+        UI_STATE.scrollTimer = null;
+      }
+
+      function scrollToResult() {
         cancelResultScroll();
-        replaceOnFirstEdit.set(field, field.value !== '');
-        inputValues.set(field, field.value);
-        field.select();
-      }
-
-      function focusField(field, center = false) {
-        field.focus({ preventScroll: true });
-        prepareFocusedField(field);
-        if (center) field.closest('.field-grid').scrollIntoView(scrollOptions());
-      }
-
-      function selectForFirstEdit(field) {
-        if (replaceOnFirstEdit.get(field)) field.select();
-      }
-
-      function handleInput(field) {
-        const value = field === elements.creatinina
-          ? applyCreatinineMask()
-          : (field.value = sanitizeDigits(field.value, 3));
-        replaceOnFirstEdit.set(field, false);
-        if (inputValues.get(field) === value) return;
-        inputValues.set(field, value);
-        editRevision += 1;
-        cancelResultScroll();
-        clearMessages();
-        invalidateResult();
-      }
-
-      function scheduleResultScroll() {
-        cancelResultScroll();
-        const revision = editRevision;
-        resultScrollTimer = window.setTimeout(() => {
-          resultScrollTimer = null;
-          if (revision !== editRevision || !hasResult || editableFields.includes(document.activeElement)
-            || document.activeElement === elements.btnLimpar) return;
-          const bounds = elements.resultadoPanel.getBoundingClientRect();
+        const revision = UI_STATE.revision;
+        UI_STATE.scrollTimer = window.setTimeout(() => {
+          UI_STATE.scrollTimer = null;
+          if (revision !== UI_STATE.revision || !UI_STATE.lastResult
+            || ['INPUT', 'SELECT'].includes(document.activeElement?.tagName)) return;
+          const bounds = DOM.resultSummary.getBoundingClientRect();
           const viewportHeight = window.visualViewport?.height || window.innerHeight;
           if (bounds.top < 0 || bounds.bottom > viewportHeight) {
-            elements.resultadoPanel.scrollIntoView(scrollOptions());
+            DOM.resultSummary.scrollIntoView(scrollOptions());
           }
         }, 80);
       }
 
-      function tryCalculation(required = false, restoreFocus = false) {
-        if (!required && editableFields.some((field) => !field.value.trim())) return false;
+      function clearFeedback(id) {
+        if (feedbackTimers.has(id)) window.clearTimeout(feedbackTimers.get(id));
+        feedbackTimers.delete(id);
+        document.getElementById(id)?.classList.remove('auto-updated');
+      }
+
+      function flashUpdated(element) {
+        clearFeedback(element.id);
+        element.classList.add('auto-updated');
+        feedbackTimers.set(element.id, window.setTimeout(() => {
+          element.classList.remove('auto-updated');
+          feedbackTimers.delete(element.id);
+        }, 1000));
+      }
+
+      function setComputedText(element, text) {
+        const previous = completedOutputs.get(element.id);
+        if (element.textContent !== text) element.textContent = text;
+        if (previous !== undefined && previous !== text) flashUpdated(element);
+        completedOutputs.set(element.id, text);
+      }
+
+      function prepareValueEntry() {
+        cancelResultScroll();
+        UI_STATE.replaceOnFirstEdit = DOM.inputValue.value !== '';
+        UI_STATE.inputValue = DOM.inputValue.value;
+        DOM.inputValue.select();
+      }
+
+      function focusControl(control, center = false) {
+        control.focus({ preventScroll: true });
+        if (control === DOM.inputValue) prepareValueEntry();
+        if (center) control.closest('.field').scrollIntoView(scrollOptions());
+      }
+
+      function showError(message, restoreFocus = false) {
+        cancelResultScroll();
+        DOM.errorBox.textContent = message;
+        DOM.errorBox.style.display = 'block';
+        DOM.inputValue.setAttribute('aria-invalid', 'true');
+        DOM.inputValue.setAttribute('aria-describedby', 'inputValueUnit inputValueHint errorBox');
+        if (restoreFocus) focusControl(DOM.inputValue, true);
+      }
+
+      function clearError() {
+        DOM.errorBox.textContent = '';
+        DOM.errorBox.style.display = 'none';
+        DOM.inputValue.setAttribute('aria-invalid', 'false');
+        DOM.inputValue.setAttribute('aria-describedby', 'inputValueUnit inputValueHint');
+      }
+
+      function renderEmptyState() {
+        UI_STATE.lastResult = null;
+        outputIds.forEach(clearFeedback);
+        const emptyValues = {
+          resultValue: '—',
+          resultText: 'Informe um valor e selecione as unidades.',
+          detailAnalyte: '—', detailSource: '—', detailTarget: '—', detailFactor: '—'
+        };
+        Object.entries(emptyValues).forEach(([id, text]) => {
+          if (DOM[id].textContent !== text) DOM[id].textContent = text;
+        });
+        DOM.detailsBox.hidden = true;
+        DOM.conversionStatus.hidden = true;
+        DOM.statusBadge.className = 'status';
+        DOM.statusBadge.textContent = '';
+        DOM.statusText.textContent = '';
+      }
+
+      function renderResult(result) {
+        UI_STATE.lastResult = result;
+        setComputedText(DOM.resultValue, `${formatNumber(result.outputValue, 2)} ${UNIT_LABELS[result.targetUnit]}`);
+        setComputedText(DOM.resultText, `${formatNumber(result.inputValue, 2)} ${UNIT_LABELS[result.sourceUnit]} correspondem a ${formatNumber(result.outputValue, 2)} ${UNIT_LABELS[result.targetUnit]}.`);
+        setComputedText(DOM.detailAnalyte, result.analyte.label);
+        setComputedText(DOM.detailSource, UNIT_LABELS[result.sourceUnit]);
+        setComputedText(DOM.detailTarget, UNIT_LABELS[result.targetUnit]);
+        setComputedText(DOM.detailFactor, `× ${formatFactor(result.factor)}`);
+        DOM.detailsBox.hidden = false;
+        DOM.conversionStatus.hidden = false;
+        DOM.statusBadge.className = 'status success';
+        DOM.statusBadge.textContent = 'Conversão concluída';
+        DOM.statusText.textContent = '';
+      }
+
+      function renderSelectOptions(selectElement, unitIds) {
+        selectElement.innerHTML = unitIds
+          .map((unit) => `<option value="${unit}">${UNIT_LABELS[unit]}</option>`)
+          .join('');
+      }
+
+      function renderUnitSelectors() {
+        const analyte = getAnalyteById(DOM.analyte.value);
+        const allowedUnits = getAllowedUnits(analyte);
+        const previousSource = DOM.sourceUnit.value;
+        renderSelectOptions(DOM.sourceUnit, allowedUnits);
+        if (allowedUnits.includes(previousSource)) DOM.sourceUnit.value = previousSource;
+        if (previousSource && previousSource !== DOM.sourceUnit.value) flashUpdated(DOM.sourceUnit);
+        updateTargetUnitsOnly();
+      }
+
+      function updateTargetUnitsOnly() {
+        const analyte = getAnalyteById(DOM.analyte.value);
+        const availableTargets = getAvailableTargets(analyte, DOM.sourceUnit.value);
+        const nextUnit = availableTargets[0];
+        const previousUnit = DOM.targetUnit.dataset.unit;
+        DOM.targetUnit.dataset.unit = nextUnit;
+        DOM.targetUnit.textContent = UNIT_LABELS[nextUnit];
+        if (previousUnit && previousUnit !== nextUnit) flashUpdated(DOM.targetUnit);
+        DOM.inputValueUnit.textContent = UNIT_LABELS[DOM.sourceUnit.value];
+        DOM.conversionTitle.textContent = `${UNIT_LABELS[DOM.sourceUnit.value]} ↔ ${UNIT_LABELS[nextUnit]}`;
+      }
+
+      // event handlers
+      function calculateAndRender({ shouldScroll = false, required = false, restoreFocus = false } = {}) {
+        clearError();
+        if (!required && !DOM.inputValue.value.trim()) {
+          renderEmptyState();
+          return null;
+        }
         try {
-          calculateFromForm();
-          return true;
+          const conversionInput = getCurrentConversionInput();
+          const result = convertValue(conversionInput);
+          renderResult(result);
+          if (shouldScroll) scrollToResult();
+          return result;
         } catch (error) {
-          const height = parseLocaleNumber(elements.estatura.value);
-          const field = !Number.isFinite(height) || height <= 0 ? elements.estatura : elements.creatinina;
-          showError(error.message, field, restoreFocus);
-          return false;
+          renderEmptyState();
+          showError(error.message || 'Não foi possível calcular.', restoreFocus);
+          return null;
         }
       }
 
+      function recalculateSelection() {
+        UI_STATE.revision += 1;
+        cancelResultScroll();
+        renderEmptyState();
+        const numericValue = parseLocaleNumber(DOM.inputValue.value);
+        if (Number.isFinite(numericValue) && numericValue > 0) calculateAndRender();
+      }
+
+      function selectForFirstEdit() {
+        if (UI_STATE.replaceOnFirstEdit) DOM.inputValue.select();
+      }
+
+      function handleValueInput() {
+        const normalized = DOM.inputValue.value.replace(/^([+-]?)[.,]/, (_, sign) => `${sign}0,`);
+        if (DOM.inputValue.value !== normalized) DOM.inputValue.value = normalized;
+        UI_STATE.replaceOnFirstEdit = false;
+        if (UI_STATE.inputValue === normalized) return;
+        UI_STATE.inputValue = normalized;
+        UI_STATE.revision += 1;
+        cancelResultScroll();
+        clearError();
+        renderEmptyState();
+      }
+
+      function clearForm() {
+        UI_STATE.revision += 1;
+        cancelResultScroll();
+        Array.from(feedbackTimers.keys()).forEach(clearFeedback);
+        completedOutputs.clear();
+        DOM.inputValue.value = '';
+        UI_STATE.inputValue = '';
+        UI_STATE.replaceOnFirstEdit = false;
+        clearError();
+        renderEmptyState();
+        focusControl(DOM.inputValue, true);
+      }
+
+      function runSelfTests() {
+        const references = [
+          ['urea', 'mmoll', 30, 4.995], ['bun', 'mmoll', 14, 4.998],
+          ['sodium', 'mmoll', 321.85676992, 140], ['potassium', 'mmoll', 15.63932, 4],
+          ['calcium', 'mmoll', 10, 2.495], ['magnesium', 'mmoll', 2, 0.8228],
+          ['phosphate', 'mmoll', 4, 1.2916], ['chloride', 'mmoll', 354.5, 100],
+          ['creatinine', 'umoll', 1, 88.4], ['bilirubin', 'umoll', 1, 17.1],
+          ['uric_acid', 'umoll', 6, 356.88], ['cholesterol', 'mmoll', 200, 5.172],
+          ['triglycerides', 'mmoll', 150, 1.6935], ['glucose', 'mmoll', 100, 5.551],
+          ['lactate', 'mmoll', 18, 1.998]
+        ];
+        let count = 0;
+        references.forEach(([analyteId, siUnit, input, expected]) => {
+          [false, true].forEach((inverse) => {
+            const result = convertValue({ analyteId, sourceUnit: inverse ? siUnit : 'mgdl',
+              targetUnit: inverse ? 'mgdl' : siUnit, numericValue: inverse ? expected : input });
+            const wanted = inverse ? input : expected;
+            if (Math.abs(result.outputValue - wanted) > 1e-9 * Math.max(1, wanted)) {
+              throw new Error(`Falha no teste de ${analyteId}.`);
+            }
+            count += 1;
+          });
+        });
+        let rejected = false;
+        try {
+          convertValue({ analyteId: 'bilirubin', sourceUnit: 'mgdl', targetUnit: 'mmoll', numericValue: 10 });
+        } catch (_) { rejected = true; }
+        if (!rejected) throw new Error('Falha na validação de unidade inválida.');
+        return { ok: true, count: count + 1 };
+      }
+
       function handleFieldKeyDown(event) {
-        const field = event.currentTarget;
-        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-          selectForFirstEdit(field);
-        }
+        if (event.currentTarget === DOM.inputValue && event.key.length === 1
+          && !event.ctrlKey && !event.metaKey && !event.altKey) selectForFirstEdit();
         if (event.key !== 'Enter' || event.isComposing) return;
         event.preventDefault();
-        if (field === elements.estatura) {
-          const height = parseLocaleNumber(field.value);
-          if (!Number.isFinite(height) || height <= 0) {
-            tryCalculation(true, true);
-            return;
-          }
-          focusField(elements.creatinina, true);
-        } else if (tryCalculation(true, true)) {
-          field.blur();
-          scheduleResultScroll();
+        if (event.currentTarget === DOM.analyte) focusControl(DOM.sourceUnit, true);
+        else if (event.currentTarget === DOM.sourceUnit) focusControl(DOM.inputValue, true);
+        else if (calculateAndRender({ required: true, restoreFocus: true })) {
+          DOM.inputValue.blur();
+          scrollToResult();
         }
       }
 
       function completePointerAction(event) {
         const handledByButton = event.type === 'click'
-          && [elements.btnCalcular, elements.btnLimpar].includes(event.target.closest('button'));
-        const shouldCalculate = deferredBlur && !handledByButton;
-        pointerAction = null;
-        deferredBlur = false;
-        if (shouldCalculate) tryCalculation();
+          && [DOM.calculateButton, DOM.clearButton].includes(event.target.closest('button'));
+        const shouldCalculate = UI_STATE.deferredBlur && !handledByButton;
+        UI_STATE.pointerControl = null;
+        UI_STATE.deferredBlur = false;
+        if (shouldCalculate) calculateAndRender();
       }
 
-      function assert(condition, label) {
-        if (!condition) throw new Error(label);
-      }
+      // bootstrap
+      function bootstrap() {
+        DOM.analyte.innerHTML = ANALYTES
+          .map((analyte) => `<option value="${analyte.id}">${analyte.label}</option>`)
+          .join('');
 
-      function assertAlmostEqual(actual, expected, tolerance, label) {
-        if (Math.abs(actual - expected) > tolerance) throw new Error(`${label} | esperado: ${expected} | obtido: ${actual}`);
-      }
+        renderUnitSelectors();
+        renderEmptyState();
 
-      function runSelfTests() {
-        const tests = [];
-        tests.push(() => assertAlmostEqual(Math.round(calculateEgfr(128, 0.62) * 10) / 10, 85.3, 1e-9, 'TFG básica'));
-        tests.push(() => assert(formatCreatinineInput('0') === '0', 'Máscara 0 -> 0'));
-        tests.push(() => assert(formatCreatinineInput('01') === '0,1', 'Máscara 01 -> 0,1'));
-        tests.push(() => assert(formatCreatinineInput('123') === '1,23', 'Máscara 123 -> 1,23'));
-        tests.push(() => assert(formatCreatinineInput('9999') === '9,99', 'Máscara limita a 3 dígitos'));
-        tests.forEach(test => test());
-        return { passed: tests.length, total: tests.length };
-      }
-
-      function verifyCore() {
-        try {
-          runSelfTests();
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      function bindEvents() {
-        editableFields.forEach((field) => {
-          field.addEventListener('focus', () => prepareFocusedField(field));
-          field.addEventListener('beforeinput', (event) => {
-            if (event.inputType?.startsWith('insert')) selectForFirstEdit(field);
-          });
-          field.addEventListener('paste', () => selectForFirstEdit(field));
-          field.addEventListener('compositionstart', () => selectForFirstEdit(field));
-          field.addEventListener('input', () => handleInput(field));
-          field.addEventListener('keydown', handleFieldKeyDown);
-          field.addEventListener('blur', (event) => {
-            if (pointerAction) {
-              deferredBlur = true;
-              return;
-            }
-            if (tryCalculation() && (!event.relatedTarget || event.relatedTarget === elements.btnCalcular)) {
-              scheduleResultScroll();
-            }
-          });
+        DOM.analyte.addEventListener('change', () => {
+          renderUnitSelectors();
+          recalculateSelection();
         });
+
+        DOM.sourceUnit.addEventListener('change', () => {
+          updateTargetUnitsOnly();
+          recalculateSelection();
+        });
+
+        [DOM.analyte, DOM.sourceUnit, DOM.inputValue].forEach((field) => {
+          field.addEventListener('keydown', handleFieldKeyDown);
+          field.addEventListener('focus', cancelResultScroll);
+        });
+        DOM.inputValue.addEventListener('focus', prepareValueEntry);
+        DOM.inputValue.addEventListener('beforeinput', (event) => {
+          if (event.inputType?.startsWith('insert')) selectForFirstEdit();
+        });
+        DOM.inputValue.addEventListener('paste', selectForFirstEdit);
+        DOM.inputValue.addEventListener('compositionstart', selectForFirstEdit);
+        DOM.inputValue.addEventListener('input', handleValueInput);
+        DOM.inputValue.addEventListener('blur', (event) => {
+          if (UI_STATE.pointerControl) {
+            UI_STATE.deferredBlur = true;
+            return;
+          }
+          if (calculateAndRender() && !event.relatedTarget) scrollToResult();
+        });
+
+        DOM.calculateButton.addEventListener('click', () => calculateAndRender({
+          shouldScroll: true, required: true, restoreFocus: true
+        }));
+        DOM.clearButton.addEventListener('click', clearForm);
         document.addEventListener('pointerdown', (event) => {
-          pointerAction = event.target.closest('button, summary');
+          UI_STATE.pointerControl = event.target.closest('button, select, summary');
         }, true);
         document.addEventListener('click', completePointerAction);
         document.addEventListener('pointercancel', completePointerAction);
         document.addEventListener('keydown', completePointerAction, true);
-        elements.btnCalcular.addEventListener('click', () => {
-          if (tryCalculation(true, true)) scheduleResultScroll();
-        });
-        elements.form.addEventListener('submit', (event) => event.preventDefault());
-        elements.form.addEventListener('reset', () => {
-          editRevision += 1;
-          const revision = editRevision;
-          resetFormView();
-          window.setTimeout(() => {
-            if (revision !== editRevision) return;
-            editableFields.forEach((field) => inputValues.set(field, field.value));
-            focusField(elements.estatura);
-            elements.estatura.closest('.field-grid').scrollIntoView(scrollOptions());
-          }, 0);
-        });
+        runSelfTests();
+        focusControl(DOM.analyte);
       }
 
-      window.ClearanceCore = Object.freeze({
-        constants: Object.freeze({ FORMULA_CONSTANT, HEIGHT_MAX_CM }),
+      window.LabConverterEngine = Object.freeze({
+        UNIT_LABELS,
+        ANALYTES,
+        getAnalyteById,
         parseLocaleNumber,
-        formatCreatinineInput,
-        calculateEgfr,
+        buildPairKey,
+        getAllowedUnits,
+        getAvailableTargets,
+        convertValue,
+        formatNumber,
         runSelfTests
       });
 
-      bindEvents();
-      resetFormView();
-      verifyCore();
-      focusField(elements.estatura);
+      bootstrap();
     })();
   </script>
+
+<script id="convlab-state-recovery">
+/* Minimal state persistence; does not change or replace the medical conversion engine. */
+(() => {
+  'use strict';
+  const APP_STATE_SCHEMA_VERSION = 1;
+  const KEY = 'convlab.state.v1';
+  const analyte = document.getElementById('analyte');
+  const sourceUnit = document.getElementById('sourceUnit');
+  const inputValue = document.getElementById('inputValue');
+  const resultValue = document.getElementById('resultValue');
+  const calc = document.getElementById('calculateButton');
+  const clear = document.getElementById('clearButton');
+  let restoring = false;
+  let preserveUnknownSchema = false;
+  const readState = () => ({
+    schemaVersion: APP_STATE_SCHEMA_VERSION,
+    analyte: analyte.value,
+    sourceUnit: sourceUnit.value,
+    inputValue: inputValue.value,
+    hasResult: resultValue.textContent.trim() !== '—',
+    scrollY: Math.max(0, Math.floor(window.scrollY || 0))
+  });
+  function save() {
+    if (restoring || preserveUnknownSchema) return;
+    try { localStorage.setItem(KEY, JSON.stringify(readState())); }
+    catch (_error) { /* The calculator remains operational without local storage. */ }
+  }
+  function restore() {
+    let saved;
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      saved = JSON.parse(raw);
+    } catch (_error) { return; }
+    if (!saved || typeof saved !== 'object') return;
+    if (saved.schemaVersion !== APP_STATE_SCHEMA_VERSION) { preserveUnknownSchema = true; return; }
+    restoring = true;
+    try {
+      if (typeof saved.analyte === 'string' && Array.from(analyte.options).some(o => o.value === saved.analyte)) {
+        analyte.value = saved.analyte;
+        analyte.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      if (typeof saved.sourceUnit === 'string' && Array.from(sourceUnit.options).some(o => o.value === saved.sourceUnit)) {
+        sourceUnit.value = saved.sourceUnit;
+        sourceUnit.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      if (typeof saved.inputValue === 'string' && saved.inputValue.length <= 80) {
+        inputValue.value = saved.inputValue;
+        inputValue.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      if (saved.hasResult && inputValue.value.trim()) {
+        // Existing listener invokes the original calculation without changing factors.
+        calc.click();
+      }
+      if (Number.isFinite(saved.scrollY) && saved.scrollY >= 0) {
+        requestAnimationFrame(() => window.scrollTo(0, Math.min(saved.scrollY, document.documentElement.scrollHeight)));
+      }
+    } finally { restoring = false; }
+  }
+  restore();
+  [analyte, sourceUnit].forEach(el => el.addEventListener('change', save));
+  inputValue.addEventListener('input', save);
+  calc.addEventListener('click', save);
+  clear.addEventListener('click', () => {
+    preserveUnknownSchema = false;
+    try { localStorage.removeItem(KEY); } catch (_error) { /* storage unavailable */ }
+  });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
+  window.addEventListener('pagehide', save);
+})();
+</script>
 </body>
 </html>
