@@ -1,5 +1,5 @@
 <!-- NomeDoApp = "Taxa de Filtração Glomerular (clearance)" -->
-<!-- AndroidVersionName = "1.012.10.20"; VersionName = "1.012.10.20" -->
+<!-- AndroidVersionName = "1.014.11.01"; VersionName = "1.014.11.01" -->
 <!-- AndroidVersionCode = "262930706"; VersionCode = "262930706"; BuildTimestamp = "2026-10-20T07:06:32-03:00" -->
 <!doctype html>
 <html lang="pt-BR">
@@ -407,6 +407,71 @@
     .spacer-3lines {
       height: 4.2em;
     }
+    /* Mesmo alinhamento de Limpar dados e Idioma, inclusive em celulares. */
+    .header-controls{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;margin:14px 0 16px}
+    .header-controls button{min-height:44px;white-space:nowrap;flex-shrink:0}
+    .language-control{display:flex;align-items:center;gap:6px;white-space:nowrap}
+    .language-control label{font-size:.92rem;font-weight:600}
+    .language-control select{min-height:44px;min-width:0;width:94px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;font-weight:600;cursor:pointer}
+    .reference-content{overflow-wrap:anywhere}
+    .reference-content ol{padding-left:22px;margin:0;line-height:1.55}
+    .reference-content li{overflow-wrap:anywhere}
+    .reference-content a{overflow-wrap:anywhere;color:#1456a0}
+    @media(max-width:380px){.header-controls{gap:6px}.header-controls button{padding:9px 8px;font-size:.86rem}.language-control{gap:4px}.language-control label{font-size:.84rem}.language-control select{width:82px;font-size:.86rem;padding:7px 4px}}
+
+/* AUDITORIA 2026 — apenas itens autorizados */
+:root{--bg:#E8F0FE;--text:#1E293B;--muted:#64748B;--line:#CBD5E1;--blue:#1A3A6B;--primary:#1A3A6B;--primary-strong:#1A3A6B;--border:#CBD5E1}
+body{background:var(--bg);color:var(--text)}
+.hero{background:linear-gradient(135deg,#f8fbff,#dbeafe);border:1px solid #CBD5E1;border-radius:22px;box-shadow:0 16px 34px rgba(18,44,73,.10);padding:20px;text-align:center}
+.hero h1{color:#1A3A6B;line-height:1.05;display:block;text-align:center;font-size:clamp(1.35rem,3.5vw,2.05rem)}
+.hero p{text-align:center;margin:10px auto 0;color:#61778f;line-height:1.55;max-width:64ch;font-size:.95rem;font-weight:400}
+.title-icon{display:inline-block;font-size:1em;line-height:1;vertical-align:-0.08em;margin-right:0.22em;white-space:nowrap}
+.card{border:1.5px solid #CBD5E1;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.section-head{background:#1A3A6B;color:white;padding:12px 18px}
+.panel{border-color:#CBD5E1;background:#fff}
+input,select{background:#F1F5F9;border-color:#CBD5E1;min-height:44px}
+.primary{background:#1A3A6B}
+.secondary{background:#F1F5F9;color:#1E293B;border-color:#CBD5E1}
+#resultadoPanel{background:#FFF4CC}
+.toolbar{align-items:center;gap:10px}
+.top-arrow{margin-left:auto;display:flex;align-items:center;justify-content:center;min-width:48px;min-height:48px;padding:8px;background:#edf2f7;color:#1A3A6B;border:1.5px solid #CBD5E1;border-radius:12px}
+    /* Rodapé padronizado: assinatura central e seta à direita na mesma faixa. */
+    .versao-rodape{position:relative;min-height:48px;display:flex;align-items:center;justify-content:center}
+    .versao-rodape .signature-block{margin:0;padding:0 54px;width:100%;text-align:center}
+    .versao-rodape .top-arrow{position:absolute;right:0;top:50%;transform:translateY(-50%);margin:0;width:48px;min-width:48px;min-height:44px;padding:8px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #CBD5E1;border-radius:10px;background:#eef3f8;color:#1A3A6B;cursor:pointer}
+    .versao-rodape .top-arrow svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .versao-rodape .top-arrow:focus-visible{outline:3px solid #2563a8;outline-offset:2px}
+#referencesDetails{margin-top:14px}
+#legalDetails{margin-top:10px}
+.legal-disclaimer{background:#F8FAFC;border-color:#CBD5E1}
+.note.warn{background:#FCD34D;color:#78350F;border:1px solid #B45309}
+.note.danger{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5}
+.note.ok{background:#DCFCE7;color:#166534;border:1px solid #86EFAC}
+.notice{background:#DBEAFE;color:#1E40AF;border:1px solid #93C5FD}
+.recovery-notice{background:#FDE68A;color:#713F12;border:1px solid #B45309;border-radius:10px;padding:11px 12px;margin:0 0 14px;font-size:13.5px;line-height:1.4}
+.recovery-notice[hidden]{display:none!important}
+.recovery-notice strong{display:block;font-size:14.5px;font-weight:600;margin-bottom:5px}
+.recovery-notice div+div{margin-top:4px}
+.recovery-warning{background:#FCD34D;color:#78350F}
+@media(max-width:380px){body{padding:12px}.toolbar{gap:6px}.toolbar button{padding:9px 10px;font-size:.85rem}.top-arrow{min-width:44px!important}}
+
+
+/* Ajustes finais: controles superiores e seta junto aos botões inferiores. */
+.header-controls{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;margin:0;padding:12px 0}
+.header-controls #topClearButton{margin:0;white-space:nowrap;flex:0 0 auto;min-width:44px;min-height:44px;border:1.5px solid #CBD5E1;background:#EEF3F8;border-radius:10px;padding:10px 14px;font-size:1rem;font-weight:700;color:#264764}
+.header-controls .language-control{display:flex;align-items:center;gap:6px;min-width:0;flex:0 0 auto}
+.header-controls .language-control label{font-size:.92rem;font-weight:600;color:#264764;white-space:nowrap}
+.header-controls .language-control select{height:44px;min-height:44px;width:auto;min-width:112px;border:1.5px solid #CBD5E1;border-radius:10px;background:#EEF3F8;color:#264764;padding:8px 28px 8px 10px;font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:400;cursor:pointer}
+.header-controls .language-control select:focus-visible{outline:2px solid #2563A8;outline-offset:2px}
+.toolbar .top-arrow{margin-left:auto;width:48px;min-width:48px;min-height:44px;padding:8px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd5e1;border-radius:10px;background:#eef3f8;color:#1a3a6b}
+.toolbar .top-arrow svg{width:23px;height:23px;stroke-width:2.5}
+@media(max-width:380px){.header-controls{gap:6px}.header-controls #topClearButton{padding:10px 8px;font-size:.86rem}.header-controls .language-control{gap:4px}.header-controls .language-control label{font-size:.84rem}.header-controls .language-control select{width:auto;min-width:112px;padding:8px 24px 8px 8px;font-size:.86rem}}
+    /* Setinha após o resultado e respiro inferior equivalentes ao padrão aprovado. */
+    .result-return-top{display:flex;justify-content:flex-end;align-items:center;margin:32px 0 8px}
+    .result-return-top .top-arrow{margin-left:auto;width:48px;min-width:48px;min-height:44px;padding:8px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd5e1;border-radius:10px;background:#eef3f8;color:#1a3a6b}
+    .result-return-top .top-arrow svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .versao-rodape{margin-top:12px;margin-bottom:0}
+    .container{padding-bottom:56px}
   </style>
 </head>
 <body>
@@ -414,37 +479,50 @@
     <div class="espaco-antes-caixa-titulo" aria-hidden="true"></div>
 
     <section class="hero" id="sectionHero">
-      <h1>Taxa de Filtração Glomerular (clearance)</h1>
-      <p>Fórmula de Bedside Schwartz (2009)</p>
+      <h1><span class="title-icon" aria-hidden="true">💧</span><span data-i18n="title">Taxa de Filtração Glomerular (clearance)</span></h1>
+      <p data-i18n="subtitle">Fórmula de Bedside Schwartz</p>
     </section>
 
+    <div class="header-controls">
+      <button class="secondary" type="reset" form="clearanceForm" id="topClearButton" data-i18n="clear">Limpar dados</button>
+      <div class="language-control">
+        <label for="languageSelect" id="languageLabel" data-i18n="language">Idioma</label>
+        <select id="languageSelect" aria-label="Selecionar idioma">
+          <option value="pt-BR">Português</option>
+          <option value="en-US">English</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="recoveryNotice" class="recovery-notice" role="status" aria-live="polite" hidden></div>
     <form id="clearanceForm" class="card" novalidate>
-      <div class="section-head">Dados do paciente</div>
+      <div class="section-head" data-i18n="patientData">Dados do paciente</div>
       <div class="card-body">
         <div class="grid">
           <section class="panel">
 
             <div class="field-grid">
-              <label for="estatura">Estatura</label>
-              <input id="estatura" name="estatura" type="text" inputmode="numeric" enterkeyhint="next" maxlength="3" autocomplete="off" placeholder="Ex.: 128" aria-describedby="estaturaUnit" aria-invalid="false">
+              <label for="estatura" data-i18n="height">Estatura</label>
+              <input id="estatura" name="estatura" type="text" inputmode="decimal" enterkeyhint="next" maxlength="9" autocomplete="off" placeholder="Ex.: 128,5" data-i18n-placeholder="heightPlaceholder" aria-describedby="estaturaUnit" aria-invalid="false">
               <span class="meta" id="estaturaUnit">cm</span>
             </div>
 
             <div class="field-grid">
-              <label for="creatinina">Creatinina sérica</label>
-              <input id="creatinina" name="creatinina" type="text" inputmode="numeric" enterkeyhint="done" maxlength="4" autocomplete="off" placeholder="Ex.: 0,62" aria-describedby="creatininaUnit" aria-invalid="false">
+              <label for="creatinina" data-i18n="creatinine">Creatinina sérica</label>
+              <input id="creatinina" name="creatinina" type="text" inputmode="decimal" enterkeyhint="done" maxlength="9" autocomplete="off" placeholder="Ex.: 0,62" data-i18n-placeholder="creatininePlaceholder" aria-describedby="creatininaUnit" aria-invalid="false">
               <span class="meta" id="creatininaUnit">mg/dL</span>
             </div>
             
 
             <div class="toolbar">
-              <button id="btnCalcular" class="primary" type="button">Calcular</button>
-              <button class="secondary" type="reset">Limpar</button>
+              <button id="btnCalcular" class="primary" type="button" data-i18n="calculate">Calcular</button>
+              <button id="btnLimparBottom" class="secondary" type="reset" data-i18n="clearBottom">Limpar</button>
+               <button class="top-arrow" type="button" aria-label="Voltar ao início" title="Voltar ao início"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7"/></svg></button>
             </div>
           </section>
 
           <section class="panel" id="resultadoPanel">
-            <h2>Resultado</h2>
+            <h2 data-i18n="result">Resultado</h2>
             <div id="resultadoBox" role="status" aria-live="polite" aria-atomic="true">
               <div class="pill">Pronto para calcular</div>
               <div class="result-value">--</div>
@@ -458,27 +536,44 @@
       </div>
     </form>
 
+    <div class="result-return-top">
+      <button class="top-arrow" type="button" aria-label="Voltar ao início" title="Voltar ao início"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    </div>
+
     <details class="card additional-info" style="margin-top:18px;">
-      <summary class="section-head">Informação adicional</summary>
+      <summary class="section-head" data-i18n="additional">Informação adicional</summary>
       <div class="card-body">
         <div class="panel">
-          <p>Calculadora baseada na fórmula <strong>Bedside Schwartz (2009)</strong>, usando estatura em cm e creatinina sérica em mg/dL.</p>
-          <div class="formula">eGFR = 0,413 × estatura (cm) ÷ creatinina sérica (mg/dL)</div>
-          <div class="note warn">A fórmula Bedside Schwartz (2009) deve ser correlacionada com idade, massa muscular, tendência da creatinina e contexto clínico.</div>
+          <p data-i18n-html="explanation">Calculadora baseada na fórmula <strong>Bedside Schwartz (2009)</strong>, usando estatura em cm e creatinina sérica em mg/dL.</p>
+          <div class="formula" data-i18n="formula">eGFR = 0,413 × estatura (cm) ÷ creatinina sérica (mg/dL)</div>
+          <div class="note warn" data-i18n="formulaWarning">A fórmula Bedside Schwartz (2009) deve ser correlacionada com idade, massa muscular, tendência da creatinina e contexto clínico.</div>
         </div>
       </div>
     </details>
 
-    <details class="legal-disclaimer legal-disclaimer-collapsible">
-      <summary>Aviso Legal e Isenção de Responsabilidade</summary>
-      <div class="legal-disclaimer-content">
+    <details class="legal-disclaimer legal-disclaimer-collapsible" id="referencesDetails">
+      <summary data-i18n="referencesTitle">Referências</summary>
+      <div class="legal-disclaimer-content reference-content">
+        <ol>
+          <li>SCHWARTZ, George J. et al. New equations to estimate GFR in children with CKD. <em>Journal of the American Society of Nephrology</em>, v. 20, n. 3, p. 629–637, 2009. DOI: <a href="https://doi.org/10.1681/ASN.2008030287" target="_blank" rel="noopener noreferrer">10.1681/ASN.2008030287</a>. <span data-i18n="available">Disponível em:</span> <a href="https://pubmed.ncbi.nlm.nih.gov/19158356/" target="_blank" rel="noopener noreferrer">https://pubmed.ncbi.nlm.nih.gov/19158356/</a>. <span data-i18n="accessed">Acesso em: 29 out. 2026.</span></li>
+          <li>NATIONAL INSTITUTE OF DIABETES AND DIGESTIVE AND KIDNEY DISEASES (NIDDK). <em>eGFR Calculators for Adults &amp; Pediatrics</em>. Bethesda: NIDDK, [s. d.]. <span data-i18n="available">Disponível em:</span> <a href="https://www.niddk.nih.gov/health-information/professionals/clinical-tools-patient-management/kidney-disease/laboratory-evaluation/estimated-gfr-calculators/adults-pediatrics" target="_blank" rel="noopener noreferrer">https://www.niddk.nih.gov/health-information/professionals/clinical-tools-patient-management/kidney-disease/laboratory-evaluation/estimated-gfr-calculators/adults-pediatrics</a>. <span data-i18n="accessed">Acesso em: 29 out. 2026.</span></li>
+          <li>NATIONAL INSTITUTE OF DIABETES AND DIGESTIVE AND KIDNEY DISEASES (NIDDK). <em>eGFR Equations for Children, Adolescents, &amp; Young Adults</em>. Bethesda: NIDDK, [s. d.]. <span data-i18n="available">Disponível em:</span> <a href="https://www.niddk.nih.gov/research-funding/research-programs/kidney-clinical-research-epidemiology/laboratory/glomerular-filtration-rate-equations/children-adolescents-young-adults" target="_blank" rel="noopener noreferrer">https://www.niddk.nih.gov/research-funding/research-programs/kidney-clinical-research-epidemiology/laboratory/glomerular-filtration-rate-equations/children-adolescents-young-adults</a>. <span data-i18n="accessed">Acesso em: 29 out. 2026.</span></li>
+          <li>KIDNEY DISEASE: IMPROVING GLOBAL OUTCOMES (KDIGO) CKD WORK GROUP. KDIGO 2024 clinical practice guideline for the evaluation and management of chronic kidney disease. <em>Kidney International</em>, v. 105, supl. 4S, p. S117–S314, 2024. DOI: <a href="https://doi.org/10.1016/j.kint.2023.10.018" target="_blank" rel="noopener noreferrer">10.1016/j.kint.2023.10.018</a>. <span data-i18n="available">Disponível em:</span> <a href="https://pubmed.ncbi.nlm.nih.gov/38490803/" target="_blank" rel="noopener noreferrer">https://pubmed.ncbi.nlm.nih.gov/38490803/</a>. <span data-i18n="accessed">Acesso em: 29 out. 2026.</span></li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="legal-disclaimer legal-disclaimer-collapsible" id="legalDetails">
+      <summary data-i18n="legalTitle">Aviso Legal e Isenção de Responsabilidade</summary>
+      <div class="legal-disclaimer-content" id="legalContent">
         Este software e todas as informações nele contidas são fornecidos exclusivamente com propósitos educacionais e de auxílio à referência médica. ESTE SISTEMA NÃO SUBSTITUI O JULGAMENTO CLÍNICO INDIVIDUAL, A ANAMNESE E O EXAME FÍSICO. As informações aqui apresentadas não devem ser utilizadas isoladamente para o diagnóstico, conduta ou tratamento de pacientes. A responsabilidade final por qualquer decisão clínica, prescrição ou intervenção é exclusiva do profissional de saúde assistente, devidamente habilitado. Os desenvolvedores não garantem a precisão absoluta de todos os dados e isentam-se de responsabilidade por quaisquer danos diretos, indiretos, materiais ou morais que resultem do uso inadequado, interpretação equivocada ou confiança exclusiva nas informações deste sistema. Pacientes e indivíduos leigos que utilizarem este software devem sempre buscar a orientação de um médico qualificado antes de tomar qualquer decisão sobre sua saúde.
       </div>
     </details>
 
-    <div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.012.10.20</span></div>
-
-    <div class="spacer-3lines" aria-hidden="true"></div>
+    <div class="versao-rodape">
+      <div class="signature-block"><strong data-i18n="developer">Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.014.11.01</span></div>
+      <button class="top-arrow" type="button" aria-label="Voltar ao início" title="Voltar ao início"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    </div>
 
   </main>
 
@@ -486,8 +581,102 @@
     (() => {
       'use strict';
 
+      const LANGUAGE_STORAGE_KEY = 'clearance.language.v1';
+      const LANGUAGE_TEXT = Object.freeze({
+        'pt-BR': {
+          title: 'Taxa de Filtração Glomerular (clearance)', subtitle: 'Fórmula de Bedside Schwartz',
+          clear: 'Limpar dados', clearBottom: 'Limpar', language: 'Idioma', selectLanguage: 'Selecionar idioma',
+          patientData: 'Dados do paciente', height: 'Estatura', creatinine: 'Creatinina sérica',
+          calculate: 'Calcular', result: 'Resultado', additional: 'Informação adicional',
+          heightPlaceholder: 'Ex.: 128,5', creatininePlaceholder: 'Ex.: 0,62',
+          referencesTitle: 'Referências', available: 'Disponível em:', accessed: 'Acesso em: 29 out. 2026.',
+          explanation: 'Calculadora baseada na fórmula <strong>Bedside Schwartz (2009)</strong>, usando estatura em cm e creatinina sérica em mg/dL.',
+          formula: 'eGFR = 0,413 × estatura (cm) ÷ creatinina sérica (mg/dL)',
+          formulaWarning: 'A fórmula Bedside Schwartz (2009) deve ser correlacionada com idade, massa muscular, tendência da creatinina e contexto clínico.',
+          legalTitle: 'Aviso Legal e Isenção de Responsabilidade',
+          developer: 'Desenvolvido por Adão L. L. Couto',
+          legal: 'Este software e todas as informações nele contidas são fornecidos exclusivamente com propósitos educacionais e de auxílio à referência médica. ESTE SISTEMA NÃO SUBSTITUI O JULGAMENTO CLÍNICO INDIVIDUAL, A ANAMNESE E O EXAME FÍSICO. As informações aqui apresentadas não devem ser utilizadas isoladamente para o diagnóstico, conduta ou tratamento de pacientes. A responsabilidade final por qualquer decisão clínica, prescrição ou intervenção é exclusiva do profissional de saúde assistente, devidamente habilitado. Os desenvolvedores não garantem a precisão absoluta de todos os dados e isentam-se de responsabilidade por quaisquer danos diretos, indiretos, materiais ou morais que resultem do uso inadequado, interpretação equivocada ou confiança exclusiva nas informações deste sistema. Pacientes e indivíduos leigos que utilizarem este software devem sempre buscar a orientação de um médico qualificado antes de tomar qualquer decisão sobre sua saúde.',
+          ready: 'Pronto para calcular', readyMessageStart: 'Informe estatura e creatinina e clique em ',
+          warning: 'Atenção:', warningHeight1: 'estatura informada de', warningHeight2: 'limitada internamente a',
+          heightError: 'Informe uma estatura válida maior que zero.', creatinineError: 'Informe uma creatinina sérica válida maior que zero.', creatinineBelowMinimum: 'Creatinina inferior a 0,001 mg/dL: valor fora do limite operacional desta calculadora. Confirme o resultado no laudo laboratorial antes de calcular.',
+          calculationLabel: 'Cálculo:'
+        },
+        'en-US': {
+          title: 'Estimated Glomerular Filtration Rate (clearance)', subtitle: 'Bedside Schwartz Formula',
+          clear: 'Clear data', clearBottom: 'Clear', language: 'Language', selectLanguage: 'Select language',
+          patientData: 'Patient data', height: 'Height', creatinine: 'Serum creatinine',
+          calculate: 'Calculate', result: 'Result', additional: 'Additional information',
+          heightPlaceholder: 'e.g., 128.5', creatininePlaceholder: 'e.g., 0.62',
+          referencesTitle: 'References', available: 'Available at:', accessed: 'Accessed on: October 29, 2026.',
+          explanation: 'Calculator based on the <strong>Bedside Schwartz formula (2009)</strong>, using height in cm and serum creatinine in mg/dL.',
+          formula: 'eGFR = 0.413 × height (cm) ÷ serum creatinine (mg/dL)',
+          formulaWarning: 'The Bedside Schwartz formula (2009) should be interpreted in the context of age, muscle mass, creatinine trends, and the clinical setting.',
+          legalTitle: 'Legal Notice and Disclaimer',
+          developer: 'Developed by Adão L. L. Couto',
+          legal: 'This software and all information it contains are provided solely for educational purposes and as a medical reference aid. THIS SYSTEM DOES NOT REPLACE INDIVIDUAL CLINICAL JUDGMENT, MEDICAL HISTORY TAKING, OR PHYSICAL EXAMINATION. The information presented must not be used in isolation to diagnose, manage, or treat patients. Final responsibility for any clinical decision, prescription, or intervention rests exclusively with the appropriately licensed healthcare professional providing care. The developers do not guarantee the absolute accuracy of the information and disclaim liability for direct, indirect, material, or non-material harm arising from misuse, misinterpretation, or exclusive reliance on information in this system. Patients and non-professional users should always seek advice from a qualified physician before making health decisions.',
+          ready: 'Ready to calculate', readyMessageStart: 'Enter height and creatinine, then click ',
+          warning: 'Attention:', warningHeight1: 'entered height of', warningHeight2: 'internally limited to',
+          heightError: 'Enter a valid height greater than zero.', creatinineError: 'Enter a valid serum creatinine greater than zero.', creatinineBelowMinimum: 'Creatinine below 0.001 mg/dL: value outside this calculator’s operational input limit. Confirm the laboratory report before calculating.',
+          calculationLabel: 'Calculation:'
+        }
+      });
+      let currentLanguage = 'pt-BR';
+      function t(key) { return LANGUAGE_TEXT[currentLanguage][key]; }
+      function currentDecimalSeparator() { return currentLanguage === 'en-US' ? '.' : ','; }
+      function readLanguagePreference() {
+        try { return localStorage.getItem(LANGUAGE_STORAGE_KEY) === 'en-US' ? 'en-US' : 'pt-BR'; }
+        catch (_error) { return 'pt-BR'; }
+      }
+      function applyStaticLanguage() {
+        document.documentElement.lang = currentLanguage;
+        document.title = t('title');
+        document.querySelector('meta[name="description"]').content = t('explanation').replace(/<[^>]*>/g, '');
+        document.querySelectorAll('[data-i18n]').forEach(node => { node.textContent = t(node.dataset.i18n); });
+        document.querySelectorAll('[data-i18n-html]').forEach(node => { node.innerHTML = t(node.dataset.i18nHtml); });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(node => { node.placeholder = t(node.dataset.i18nPlaceholder); });
+        document.getElementById('legalContent').textContent = t('legal');
+        const languageSelect = document.getElementById('languageSelect');
+        languageSelect.value = currentLanguage;
+        languageSelect.setAttribute('aria-label', t('selectLanguage'));
+        document.querySelectorAll('.top-arrow').forEach(button => { const label = currentLanguage === 'en-US' ? 'Back to top' : 'Voltar ao início'; button.setAttribute('aria-label',label); button.title=label; });
+        const notice=document.getElementById('recoveryNotice');
+        if (!notice.hidden) showRecoveryNotice(hasResult);
+      }
+      function changeLanguage(event) {
+        const next = event.target.value;
+        if (next !== 'pt-BR' && next !== 'en-US' || next === currentLanguage) return;
+        const hadResult = hasResult;
+        const errorField = elements.errorBox.style.display !== 'none'
+          ? (elements.estatura.getAttribute('aria-invalid') === 'true' ? elements.estatura : elements.creatinina)
+          : null;
+        currentLanguage = next;
+        applyStaticLanguage();
+        // Changing language never changes numeric values or clinical formula.
+        elements.estatura.value = normalizeHeightInput(elements.estatura.value);
+        elements.creatinina.value = formatCreatinineInput(elements.creatinina.value);
+        editableFields.forEach(field => inputValues.set(field, field.value));
+        if (hadResult) {
+          hasResult = false; // Refresh presentation even when the calculated values are identical.
+          calculateFromForm();
+        } else {
+          elements.resultadoBox.innerHTML = buildReadyResult();
+          if (errorField) {
+            const pendingCreatinine = parseLocaleNumber(elements.creatinina.value);
+            const errorKey = errorField === elements.estatura ? 'heightError'
+              : (Number.isFinite(pendingCreatinine) && pendingCreatinine > 0 && pendingCreatinine < CREATININE_MIN_MG_DL
+                  ? 'creatinineBelowMinimum' : 'creatinineError');
+            showError(t(errorKey), errorField, false);
+          }
+        }
+        try { localStorage.setItem(LANGUAGE_STORAGE_KEY, currentLanguage); } catch (_error) { /* Functional without storage. */ }
+        persistSession();
+      }
+
       const FORMULA_CONSTANT = 0.413;
       const HEIGHT_MAX_CM = 200;
+      // Operational minimum follows the NIDDK 2009 CKiD bedside calculator input rule;
+      // this is not a physiological or diagnostic reference interval.
+      const CREATININE_MIN_MG_DL = 0.001;
 
       const elements = {
         form: document.getElementById('clearanceForm'),
@@ -497,7 +686,8 @@
         resultadoPanel: document.getElementById('resultadoPanel'),
         contextWarning: document.getElementById('contextWarning'),
         errorBox: document.getElementById('errorBox'),
-        btnLimpar: document.querySelector('button[type="reset"]'),
+        btnLimpar: document.getElementById('topClearButton'),
+        btnLimparBottom: document.getElementById('btnLimparBottom'),
         btnCalcular: document.getElementById('btnCalcular')
       };
 
@@ -521,19 +711,44 @@
 
       function formatNumber(value, decimals) {
         if (!Number.isFinite(value)) return '';
-        return value.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return value.toLocaleString(currentLanguage, { minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: false });
       }
 
+      const MAX_DECIMAL_PLACES = 5;
+      // Detail labels show significant supplied decimals without padding zeros.
+      // All calculations still use the full parsed numeric input.
+      function formatInputForDetails(value) {
+        return value.toLocaleString(currentLanguage, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: MAX_DECIMAL_PLACES,
+          useGrouping: false
+        });
+      }
       function sanitizeDigits(value, maxLength) {
         return String(value ?? '').replace(/\D/g, '').slice(0, maxLength);
       }
-
-      function formatCreatinineInput(rawValue) {
-        const digits = sanitizeDigits(rawValue, 3);
-        if (digits.length <= 1) return digits;
-        return `${digits.charAt(0)},${digits.slice(1)}`;
+      function normalizeExplicitDecimal(value, maxIntegerDigits) {
+        const raw = String(value ?? '').trim().replace(/\s/g, '').replace(/\./g, ',').replace(/[^\d,]/g, '');
+        if (raw === '') return '';
+        const index = raw.indexOf(',');
+        const integer = (index < 0 ? raw : raw.slice(0, index)).slice(0, maxIntegerDigits);
+        if (index < 0) return integer;
+        const fractional = raw.slice(index + 1).replace(/\D/g, '').slice(0, MAX_DECIMAL_PLACES);
+        return (integer || '0') + currentDecimalSeparator() + fractional;
       }
-
+      function normalizeHeightInput(value) {
+        // Up to 3 integral digits and 5 fractional digits; preserve explicit decimal entry.
+        return normalizeExplicitDecimal(value, 3);
+      }
+      function formatCreatinineInput(rawValue) {
+        const raw = String(rawValue ?? '').trim();
+        // Keep the original digit-by-digit automatic decimal after digit 1.
+        // An explicit comma/dot is respected (e.g. 12,34567 remains 12,34567).
+        if (/[,.]/.test(raw)) return normalizeExplicitDecimal(raw, 3);
+        const digits = sanitizeDigits(raw, MAX_DECIMAL_PLACES + 1);
+        if (digits.length <= 1) return digits;
+        return digits.charAt(0) + currentDecimalSeparator() + digits.slice(1);
+      }
       function applyCreatinineMask() {
         const formatted = formatCreatinineInput(elements.creatinina.value);
         if (elements.creatinina.value !== formatted) elements.creatinina.value = formatted;
@@ -542,7 +757,7 @@
 
       function readValidatedPatientContext() {
         const originalHeight = parseLocaleNumber(elements.estatura.value);
-        if (!Number.isFinite(originalHeight) || originalHeight <= 0) throw new Error('Informe uma estatura válida maior que zero.');
+        if (!Number.isFinite(originalHeight) || originalHeight <= 0) throw new Error(t('heightError'));
         const height = Math.min(originalHeight, HEIGHT_MAX_CM);
         return {
           height,
@@ -567,7 +782,7 @@
       }
 
       function buildReadyResult() {
-        return `<div class="pill">Pronto para calcular</div><div class="result-value">--</div><div>mL/min/1,73 m²</div><div class="details muted">Informe estatura e creatinina e clique em <strong>Calcular</strong>.</div>`;
+        return `<div class="pill">${t('ready')}</div><div class="result-value">--</div><div>mL/min/1,73 m²</div><div class="details muted">${t('readyMessageStart')}<strong>${t('calculate')}</strong>.</div>`;
       }
 
       function showError(message, field, restoreFocus) {
@@ -582,7 +797,7 @@
 
       function renderWarnings(context) {
         if (!context.heightWasCapped) return;
-        elements.contextWarning.innerHTML = `<strong>Atenção:</strong> estatura informada de ${formatNumber(context.originalHeight, 1)} cm limitada internamente a ${formatNumber(context.height, 1)} cm.`;
+        elements.contextWarning.innerHTML = `<strong>${t('warning')}</strong> ${t('warningHeight1')} ${formatInputForDetails(context.originalHeight)} cm ${t('warningHeight2')} ${formatInputForDetails(context.height)} cm.`;
         elements.contextWarning.style.display = 'block';
       }
 
@@ -591,11 +806,12 @@
         const context = readValidatedPatientContext();
         const formattedCreatinine = applyCreatinineMask();
         const creatinine = parseLocaleNumber(formattedCreatinine);
-        if (!Number.isFinite(creatinine) || creatinine <= 0) throw new Error('Informe uma creatinina sérica válida maior que zero.');
+        if (!Number.isFinite(creatinine) || creatinine <= 0) throw new Error(t('creatinineError'));
+        if (creatinine < CREATININE_MIN_MG_DL) throw new Error(t('creatinineBelowMinimum'));
 
         const egfr = calculateEgfr(context.height, creatinine);
         const resultValue = formatNumber(egfr, 1);
-        const resultKey = `${context.originalHeight}|${creatinine}`;
+        const resultKey = `${currentLanguage}|${context.originalHeight}|${creatinine}`;
         if (!hasResult || resultKey !== lastResultKey) {
           clearFeedback();
           elements.resultadoBox.innerHTML = `
@@ -603,9 +819,9 @@
           <div class="result-value">${resultValue}</div>
           <div>mL/min/1,73 m²</div>
           <div class="details">
-            <strong>Estatura:</strong> ${formatNumber(context.height, 1)} cm<br>
-            <strong>Creatinina:</strong> ${formatNumber(creatinine, 2)} mg/dL<br>
-            <strong>Cálculo:</strong> 0,413 × ${formatNumber(context.height, 1)} ÷ ${formatNumber(creatinine, 2)}
+            <strong>${t('height')}:</strong> ${formatInputForDetails(context.height)} cm<br>
+            <strong>${t('creatinine')}:</strong> ${formatInputForDetails(creatinine)} mg/dL<br>
+            <strong>${t('calculationLabel')}</strong> ${formatNumber(FORMULA_CONSTANT, 3)} × ${formatInputForDetails(context.height)} ÷ ${formatInputForDetails(creatinine)}
           </div>`;
           if (lastResultValue !== null && resultValue !== lastResultValue) {
             const output = elements.resultadoBox.querySelector('.result-value');
@@ -625,6 +841,7 @@
       }
 
       function resetFormView() {
+        document.getElementById("recoveryNotice").hidden = true;
         cancelResultScroll();
         clearMessages();
         invalidateResult();
@@ -678,7 +895,7 @@
       function handleInput(field) {
         const value = field === elements.creatinina
           ? applyCreatinineMask()
-          : (field.value = sanitizeDigits(field.value, 3));
+          : (field.value = normalizeHeightInput(field.value));
         replaceOnFirstEdit.set(field, false);
         if (inputValues.get(field) === value) return;
         inputValues.set(field, value);
@@ -695,7 +912,7 @@
         resultScrollTimer = window.setTimeout(() => {
           resultScrollTimer = null;
           if (revision !== editRevision || !hasResult || editableFields.includes(document.activeElement)
-            || document.activeElement === elements.btnLimpar) return;
+            || document.activeElement === elements.btnLimpar || document.activeElement === elements.btnLimparBottom) return;
           const bounds = elements.resultadoPanel.getBoundingClientRect();
           const viewportHeight = window.visualViewport?.height || window.innerHeight;
           if (bounds.top < 0 || bounds.bottom > viewportHeight) {
@@ -739,7 +956,7 @@
 
       function completePointerAction(event) {
         const handledByButton = event.type === 'click'
-          && [elements.btnCalcular, elements.btnLimpar].includes(event.target.closest('button'));
+          && [elements.btnCalcular, elements.btnLimpar, elements.btnLimparBottom].includes(event.target.closest('button'));
         const shouldCalculate = deferredBlur && !handledByButton;
         pointerAction = null;
         deferredBlur = false;
@@ -758,9 +975,13 @@
         const tests = [];
         tests.push(() => assertAlmostEqual(Math.round(calculateEgfr(128, 0.62) * 10) / 10, 85.3, 1e-9, 'TFG básica'));
         tests.push(() => assert(formatCreatinineInput('0') === '0', 'Máscara 0 -> 0'));
-        tests.push(() => assert(formatCreatinineInput('01') === '0,1', 'Máscara 01 -> 0,1'));
-        tests.push(() => assert(formatCreatinineInput('123') === '1,23', 'Máscara 123 -> 1,23'));
-        tests.push(() => assert(formatCreatinineInput('9999') === '9,99', 'Máscara limita a 3 dígitos'));
+        tests.push(() => assert(formatCreatinineInput('01') === '0,1'.replace(',', currentDecimalSeparator()), 'Máscara 01 -> 0,1'));
+        tests.push(() => assert(formatCreatinineInput('123') === '1,23'.replace(',', currentDecimalSeparator()), 'Máscara 123 -> 1,23'));
+        tests.push(() => assert(formatCreatinineInput('012345') === '0' + currentDecimalSeparator() + '12345', 'Cinco casas na creatinina'));
+        tests.push(() => assert(formatCreatinineInput('0,123456') === '0' + currentDecimalSeparator() + '12345', 'Limita fração a 5 casas'));
+        tests.push(() => assert(formatCreatinineInput('12,34567') === '12' + currentDecimalSeparator() + '34567', 'Mantém parte inteira explícita'));
+        tests.push(() => assert(normalizeHeightInput('128,12345') === '128' + currentDecimalSeparator() + '12345', 'Cinco casas na estatura'));
+        tests.push(() => assertAlmostEqual(calculateEgfr(128.12345, 0.62123), 0.413 * 128.12345 / 0.62123, 1e-12, 'Precisão das entradas'));
         tests.forEach(test => test());
         return { passed: tests.length, total: tests.length };
       }
@@ -790,6 +1011,16 @@
           console.warn('Armazenamento indisponível: dados serão mantidos somente nesta sessão.');
         }
       }
+      function showRecoveryNotice(hasPreviousResult) {
+        const notice = document.getElementById('recoveryNotice');
+        if (!elements.estatura.value && !elements.creatinina.value) { notice.hidden = true; return; }
+        const invalid = [elements.estatura, elements.creatinina].some(field => field.value && (!Number.isFinite(parseLocaleNumber(field.value)) || parseLocaleNumber(field.value) <= 0));
+        notice.className = 'recovery-notice' + (invalid ? ' recovery-warning' : '');
+        if (invalid) notice.innerHTML = '<strong>'+ (currentLanguage === 'en-US' ? 'Data requiring review' : 'Dados que exigem revisão') + '</strong><div>'+(currentLanguage === 'en-US' ? 'Some recovered data require review. Check the highlighted fields.' : 'Alguns dados recuperados precisam de revisão. Verifique os campos destacados.')+'</div>';
+        else if (hasPreviousResult) notice.innerHTML = '<strong>'+(currentLanguage === 'en-US' ? 'Previous results' : 'Resultados anteriores')+'</strong><div>'+(currentLanguage === 'en-US' ? 'Previous data and results were recovered.' : 'Dados e resultados anteriores foram recuperados.')+'</div><div>'+(currentLanguage === 'en-US' ? 'Confirm the information before using the results.' : 'Confirme as informações antes de utilizar os resultados.')+'</div>';
+        else notice.innerHTML = '<strong>'+(currentLanguage === 'en-US' ? 'Recovered data' : 'Dados recuperados')+'</strong><div>'+(currentLanguage === 'en-US' ? 'Data from the previous session were recovered. Check the information before continuing.' : 'Dados da sessão anterior recuperados. Confira as informações antes de continuar.')+'</div>';
+        notice.hidden = false;
+      }
       function restoreSession() {
         let snapshot;
         try {
@@ -800,15 +1031,13 @@
         if (!snapshot || snapshot.schema !== APP_STATE_SCHEMA_VERSION ||
             typeof snapshot.estatura !== 'string' || typeof snapshot.creatinina !== 'string') return false;
         // Incompatible/corrupt snapshots are never silently deleted.
-        elements.estatura.value = sanitizeDigits(snapshot.estatura, 3);
+        elements.estatura.value = normalizeHeightInput(snapshot.estatura);
         elements.creatinina.value = formatCreatinineInput(snapshot.creatinina);
         editableFields.forEach(field => inputValues.set(field, field.value));
         if (snapshot.resultWasVisible && elements.estatura.value && elements.creatinina.value) {
           tryCalculation(false, false);
         }
-        if (Number.isFinite(snapshot.scrollY) && snapshot.scrollY >= 0) {
-          requestAnimationFrame(() => window.scrollTo(0, snapshot.scrollY));
-        }
+        showRecoveryNotice(Boolean(snapshot.resultWasVisible && hasResult));
         return true;
       }
       document.addEventListener('visibilitychange', () => {
@@ -817,6 +1046,7 @@
       window.addEventListener('pagehide', persistSession);
 
       function bindEvents() {
+        document.querySelectorAll('.top-arrow').forEach(button => button.addEventListener('click', () => window.scrollTo({top:0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'})));
         editableFields.forEach((field) => {
           field.addEventListener('focus', () => prepareFocusedField(field));
           field.addEventListener('beforeinput', (event) => {
@@ -861,17 +1091,23 @@
       }
 
       window.ClearanceCore = Object.freeze({
-        constants: Object.freeze({ FORMULA_CONSTANT, HEIGHT_MAX_CM }),
+        constants: Object.freeze({ FORMULA_CONSTANT, HEIGHT_MAX_CM, CREATININE_MIN_MG_DL }),
         parseLocaleNumber,
         formatCreatinineInput,
         calculateEgfr,
         runSelfTests
       });
 
+      currentLanguage = readLanguagePreference();
+      applyStaticLanguage();
+      document.getElementById('languageSelect').addEventListener('change', changeLanguage);
       bindEvents();
       resetFormView();
+      elements.resultadoBox.innerHTML = buildReadyResult();
       verifyCore();
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       restoreSession();
+      requestAnimationFrame(() => window.scrollTo(0,0));
       if (!elements.estatura.value) focusField(elements.estatura);
     })();
   </script>
